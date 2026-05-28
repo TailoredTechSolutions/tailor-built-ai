@@ -1,5 +1,6 @@
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Hero3D } from "./Hero3D";
+import { FuseText } from "./FuseText";
 
 export function Hero() {
   return (
@@ -15,7 +16,7 @@ export function Hero() {
           <div className="eyebrow mb-6">[ AI Product Studio ]</div>
           <h1 className="font-display text-[44px] leading-[0.95] sm:text-6xl md:text-[88px] font-extrabold tracking-tighter text-chrome">
             We Build Intelligence —{" "}
-            <span className="gold-text-gradient italic">Tailored.</span>
+            <FuseText text="Tailored." />
           </h1>
           <p className="mt-8 max-w-[58ch] text-base md:text-lg text-secondary-soft leading-relaxed">
             Custom AI applications, embedded systems, and product experiences designed for the companies that refuse to be generic.
