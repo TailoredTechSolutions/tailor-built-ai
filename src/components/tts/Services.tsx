@@ -1,36 +1,44 @@
-import { Brain, Smartphone, Globe, Cpu, Palette, Compass, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "./Reveal";
+import {
+  AnalyticsScene,
+  CyberScene,
+  SalesAgentScene,
+  AutomationScene,
+  MobileScene,
+  WebScene,
+} from "./ServiceScenes";
 
 const SERVICES = [
   {
-    Icon: Brain,
+    Scene: AnalyticsScene,
+    name: "Custom CRM & Analytics Platforms",
+    body: "Bespoke CRMs and dashboards engineered to your pipeline — live charts, KPI surfaces, and revenue intelligence wired directly into your data.",
+  },
+  {
+    Scene: CyberScene,
+    name: "Cybersecurity Engineering",
+    body: "Threat modeling, zero-trust architecture, hardened auth, and continuous monitoring. We build the locks before someone tests the door.",
+  },
+  {
+    Scene: SalesAgentScene,
+    name: "AI Sales & Lead Generation Agents",
+    body: "Inbound and outbound voice agents, appointment setters, survey bots, and lead-gen workflows that work the phones 24/7 — never sick, never off-script.",
+  },
+  {
+    Scene: AutomationScene,
     name: "AI Integration & Automation",
-    body: "Deploy intelligent systems into existing business workflows. We connect models, pipelines, and APIs into coherent, production-grade AI infrastructure.",
+    body: "Production-grade AI infrastructure. Models, pipelines, and APIs stitched into your existing workflows so the busywork disappears.",
   },
   {
-    Icon: Smartphone,
+    Scene: MobileScene,
     name: "Mobile Application Development",
-    body: "Cross-platform mobile apps built with React Native and Capacitor. App Store–ready. Scalable from day one.",
+    body: "Cross-platform iOS and Android apps built with React Native and Capacitor. App Store–ready, scalable from day one.",
   },
   {
-    Icon: Globe,
+    Scene: WebScene,
     name: "Web Platform Engineering",
-    body: "Full-stack web applications from architecture to deployment. React, TypeScript, Supabase, Netlify — modern stacks that don't rot.",
-  },
-  {
-    Icon: Cpu,
-    name: "Embedded Systems & IoT",
-    body: "Hardware-level firmware engineering meets software product thinking. From sensor integration to data pipelines.",
-  },
-  {
-    Icon: Palette,
-    name: "UI/UX Engineering",
-    body: "Interfaces that don't look like AI built them. Design systems, component libraries, and user flows grounded in human factors research.",
-  },
-  {
-    Icon: Compass,
-    name: "Technology Consulting",
-    body: "Strategic advisory for companies navigating AI adoption, cloud migration, and technology stack decisions.",
+    body: "Full-stack web apps from architecture to deployment. React, TypeScript, Supabase — modern stacks that don't rot.",
   },
 ];
 
@@ -45,40 +53,31 @@ export function Services() {
           </h2>
         </Reveal>
 
-        <div className="mt-20 space-y-6">
-          {SERVICES.map((s, i) => {
-            const left = i % 2 === 0;
-            return (
-              <Reveal key={s.name} delay={i * 60}>
-                <div className={`grid md:grid-cols-12 gap-6 items-stretch`}>
-                  <div className={`md:col-span-7 ${left ? "" : "md:col-start-6"}`}>
-                    <a
-                      href="#contact"
-                      className="group relative block bg-card-soft border border-subtle rounded-2xl p-7 md:p-9 gold-diffuse hover:border-l-2 hover:border-l-[var(--gold-bright)] transition-all"
-                    >
-                      <div className="flex items-start gap-5">
-                        <div className="shrink-0 w-12 h-12 rounded-lg border border-gold-dim flex items-center justify-center bg-[var(--gold-glow)]">
-                          <s.Icon size={22} className="text-gold" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between gap-4">
-                            <h3 className="font-display text-xl md:text-2xl font-semibold text-chrome leading-tight">
-                              {s.name}
-                            </h3>
-                            <span className="text-[10px] font-mono text-gold-dim mt-1">0{i + 1}</span>
-                          </div>
-                          <p className="mt-3 text-secondary-soft leading-relaxed max-w-[55ch]">{s.body}</p>
-                          <div className="mt-5 inline-flex items-center gap-1.5 text-gold text-xs font-mono uppercase tracking-widest">
-                            Learn more <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                          </div>
-                        </div>
-                      </div>
-                    </a>
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          {SERVICES.map((s, i) => (
+            <Reveal key={s.name} delay={i * 60}>
+              <a
+                href="#contact"
+                className="group relative block bg-card-soft border border-subtle rounded-2xl overflow-hidden gold-diffuse hover:border-[var(--gold-dim)] transition-all h-full"
+              >
+                <div className="relative h-56 md:h-64 overflow-hidden border-b border-subtle bg-[var(--bg-deep)]">
+                  <s.Scene />
+                  <span className="absolute top-4 right-4 text-[10px] font-mono text-gold-dim tracking-widest">
+                    0{i + 1}
+                  </span>
+                </div>
+                <div className="p-6 md:p-8">
+                  <h3 className="font-display text-xl md:text-2xl font-semibold text-chrome leading-tight">
+                    {s.name}
+                  </h3>
+                  <p className="mt-3 text-secondary-soft leading-relaxed">{s.body}</p>
+                  <div className="mt-5 inline-flex items-center gap-1.5 text-gold text-xs font-mono uppercase tracking-widest">
+                    Engage <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </div>
                 </div>
-              </Reveal>
-            );
-          })}
+              </a>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
