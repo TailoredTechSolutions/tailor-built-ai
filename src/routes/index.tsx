@@ -21,6 +21,12 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Tailored Tech Solutions builds production AI products, mobile apps, and bespoke engineering software. Studio of Andrew Gwaltney & Ameer Al Saati." },
       { property: "og:title", content: "Tailored Tech Solutions — AI Software Studio" },
       { property: "og:description", content: "Custom AI applications, embedded systems, and product experiences designed for the companies that refuse to be generic." },
+      { property: "og:url", content: "https://tailoredtechsolutions.org/" },
+      { name: "twitter:title", content: "Tailored Tech Solutions — AI Software Studio" },
+      { name: "twitter:description", content: "Custom AI applications, embedded systems, and product experiences designed for the companies that refuse to be generic." },
+    ],
+    links: [
+      { rel: "canonical", href: "https://tailoredtechsolutions.org/" },
     ],
   }),
   component: Index,
