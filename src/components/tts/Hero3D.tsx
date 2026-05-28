@@ -144,10 +144,10 @@ export function Hero3D() {
 
   useEffect(() => setMounted(true), []);
 
-  // Auto-hide hint after 5s
+  // Auto-hide hint after 6.5s
   useEffect(() => {
     if (!mounted) return;
-    const t = setTimeout(() => setHintVisible(false), 5200);
+    const t = setTimeout(() => setHintVisible(false), 6500);
     return () => clearTimeout(t);
   }, [mounted]);
 
@@ -222,23 +222,42 @@ export function Hero3D() {
 
       {/* Desktop cursor hint */}
       <div
-        className={`hidden md:flex absolute -bottom-2 left-1/2 -translate-x-1/2 items-center gap-1.5 px-3 py-1.5 rounded-full glass pointer-events-none transition-all duration-700 ${
-          showHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        className={`hidden md:flex absolute -bottom-6 left-1/2 -translate-x-1/2 items-center gap-2 px-4 py-2 rounded-full pointer-events-none transition-all duration-1000 ${
+          showHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
         }`}
+        style={{
+          background: "rgba(255,255,255,0.05)",
+          backdropFilter: "blur(18px)",
+          WebkitBackdropFilter: "blur(18px)",
+          border: "1px solid rgba(212,168,67,0.18)",
+          boxShadow: "0 4px 24px rgba(212,168,67,0.08), inset 0 1px 0 rgba(255,255,255,0.06)",
+        }}
       >
-        <Pointer size={13} className="text-gold" />
-        <span className="text-[11px] font-mono tracking-wider text-gold-dim">Move your cursor</span>
+        <span className="cursor-wiggle">
+          <Pointer size={14} className="text-gold" />
+        </span>
+        <span className="text-[11px] font-mono tracking-widest text-gold">Move your cursor</span>
       </div>
 
       {/* Mobile touch hint */}
       <div
-        className={`flex md:hidden absolute -bottom-2 left-1/2 -translate-x-1/2 items-center gap-1.5 px-3 py-1.5 rounded-full glass pointer-events-none transition-all duration-700 ${
-          showHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        className={`flex md:hidden absolute -bottom-6 left-1/2 -translate-x-1/2 items-center gap-2 px-4 py-2.5 rounded-full pointer-events-none transition-all duration-1000 ${
+          showHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
         }`}
+        style={{
+          background: "rgba(255,255,255,0.05)",
+          backdropFilter: "blur(18px)",
+          WebkitBackdropFilter: "blur(18px)",
+          border: "1px solid rgba(212,168,67,0.18)",
+          boxShadow: "0 4px 24px rgba(212,168,67,0.08), inset 0 1px 0 rgba(255,255,255,0.06)",
+        }}
       >
-        <Smartphone size={13} className="text-gold" />
-        <span className="text-[11px] font-mono tracking-wider text-gold-dim">Drag to explore</span>
-        <span className="tap-ring ml-0.5" />
+        <span className="relative flex items-center justify-center w-5 h-5">
+          <span className="absolute inset-0 rounded-full bg-gold/20 animate-touch-ping" />
+          <span className="absolute inset-0 rounded-full bg-gold/10 animate-touch-ping-delay" />
+          <Smartphone size={13} className="text-gold relative z-10" />
+        </span>
+        <span className="text-[11px] font-mono tracking-widest text-gold">Drag to explore</span>
       </div>
 
       {/* Invisible interaction catcher for desktop hover awareness */}
