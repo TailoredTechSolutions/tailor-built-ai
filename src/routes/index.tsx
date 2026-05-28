@@ -4,7 +4,6 @@ import { Hero } from "@/components/tts/Hero";
 import { SilkRibbon } from "@/components/tts/SilkRibbon";
 import { Marquee } from "@/components/tts/Marquee";
 import { Services } from "@/components/tts/Services";
-import { Terra } from "@/components/tts/Terra";
 import { Stack } from "@/components/tts/Stack";
 import { Projects } from "@/components/tts/Projects";
 import { Founders } from "@/components/tts/Founders";
@@ -41,7 +40,6 @@ function Index() {
         <Hero />
         <Marquee />
         <Services />
-        <Terra />
         <Projects />
         <Stack />
         <Founders />

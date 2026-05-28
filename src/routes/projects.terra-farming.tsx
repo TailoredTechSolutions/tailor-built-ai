@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Users, Truck, Network, RefreshCw, ShieldCheck } from "lucide-react";
 import { Nav } from "@/components/tts/Nav";
 import { Footer } from "@/components/tts/Footer";
+import { TerraFeatureGrid } from "@/components/tts/FeatureVideo";
 import terraLogo from "@/assets/terra-logo.png";
 
 const TERRA = {
