@@ -16,6 +16,7 @@ const FOUNDERS = [
     role: "Co-Founder & CTO",
     bio: "Ameer drives the engineering depth at TTS — from embedded systems and firmware to scalable cloud architectures. His background spans multiple technology domains with a focus on building systems that perform under real-world conditions.",
     tags: ["Embedded Systems", "Cloud Infrastructure", "Mobile Development", "Systems Architecture"],
+    email: "alsaati@tailoredtechsolutions.org",
   },
 ];
 

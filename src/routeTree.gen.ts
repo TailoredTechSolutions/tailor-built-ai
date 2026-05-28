@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProjectsBigLeagueSwingsRouteImport } from './routes/projects.big-league-swings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsBigLeagueSwingsRoute = ProjectsBigLeagueSwingsRouteImport.update({
+  id: '/projects/big-league-swings',
+  path: '/projects/big-league-swings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/projects/big-league-swings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/projects/big-league-swings'
+  id: '__root__' | '/' | '/projects/big-league-swings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProjectsBigLeagueSwingsRoute: typeof ProjectsBigLeagueSwingsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects/big-league-swings': {
+      id: '/projects/big-league-swings'
+      path: '/projects/big-league-swings'
+      fullPath: '/projects/big-league-swings'
+      preLoaderRoute: typeof ProjectsBigLeagueSwingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProjectsBigLeagueSwingsRoute: ProjectsBigLeagueSwingsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

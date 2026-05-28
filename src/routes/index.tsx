@@ -6,6 +6,7 @@ import { Marquee } from "@/components/tts/Marquee";
 import { Services } from "@/components/tts/Services";
 import { Terra } from "@/components/tts/Terra";
 import { Stack } from "@/components/tts/Stack";
+import { Projects } from "@/components/tts/Projects";
 import { Founders } from "@/components/tts/Founders";
 import { Frameworks } from "@/components/tts/Frameworks";
 import { Markets } from "@/components/tts/Markets";
@@ -35,6 +36,7 @@ function Index() {
         <Marquee />
         <Services />
         <Terra />
+        <Projects />
         <Stack />
         <Founders />
         <Frameworks />
