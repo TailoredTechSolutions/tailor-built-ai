@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Icosahedron, Sphere, Points, PointMaterial } from "@react-three/drei";
+import { Move, Pointer, Smartphone } from "lucide-react";
 import * as THREE from "three";
 
 function ParticleField() {
@@ -47,7 +48,7 @@ function Core({ pointer }: { pointer: React.MutableRefObject<{ x: number; y: num
     // Slow auto-rotate
     group.current.rotation.y += dt * 0.25;
     group.current.rotation.x += dt * 0.06;
-    // Mouse parallax — ease toward pointer
+    // Mouse / touch parallax — ease toward pointer
     const tx = pointer.current.x * 0.35;
     const ty = pointer.current.y * 0.35;
     group.current.position.x += (tx - group.current.position.x) * 0.04;
@@ -101,17 +102,16 @@ function Core({ pointer }: { pointer: React.MutableRefObject<{ x: number; y: num
   );
 }
 
-function Scene() {
-  const pointer = useRef({ x: 0, y: 0 });
-
+function Scene({ pointer, onInteract }: { pointer: React.MutableRefObject<{ x: number; y: number }>; onInteract?: () => void }) {
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
       pointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       pointer.current.y = (e.clientY / window.innerHeight) * 2 - 1;
+      onInteract?.();
     };
     window.addEventListener("pointermove", onMove);
     return () => window.removeEventListener("pointermove", onMove);
-  }, []);
+  }, [pointer, onInteract]);
 
   return (
     <>
@@ -127,10 +127,79 @@ function Scene() {
 
 export function Hero3D() {
   const [mounted, setMounted] = useState(false);
+  const [hintVisible, setHintVisible] = useState(true);
+  const [interacted, setInteracted] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
+  const pointer = useRef({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => setMounted(true), []);
 
+  // Detect touch device
+  useEffect(() => {
+    const detect = () => setIsTouch("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    detect();
+  }, []);
+
+  // Auto-hide hint after 5s
+  useEffect(() => {
+    if (!mounted) return;
+    const t = setTimeout(() => setHintVisible(false), 5200);
+    return () => clearTimeout(t);
+  }, [mounted]);
+
+  const handleInteract = () => {
+    if (!interacted) setInteracted(true);
+  };
+
+  // Touch drag drives parallax
+  useEffect(() => {
+    if (!isTouch || !containerRef.current) return;
+    const el = containerRef.current;
+    let startX = 0;
+    let startY = 0;
+    let active = false;
+
+    const onStart = (e: TouchEvent) => {
+      active = true;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      handleInteract();
+    };
+    const onMove = (e: TouchEvent) => {
+      if (!active) return;
+      const dx = (e.touches[0].clientX - startX) / window.innerWidth;
+      const dy = (e.touches[0].clientY - startY) / window.innerHeight;
+      pointer.current.x = dx * 3;
+      pointer.current.y = dy * 3;
+    };
+    const onEnd = () => {
+      active = false;
+      // gentle decay back to center
+      const decay = () => {
+        pointer.current.x *= 0.92;
+        pointer.current.y *= 0.92;
+        if (Math.abs(pointer.current.x) > 0.01 || Math.abs(pointer.current.y) > 0.01) {
+          requestAnimationFrame(decay);
+        }
+      };
+      decay();
+    };
+
+    el.addEventListener("touchstart", onStart, { passive: true });
+    el.addEventListener("touchmove", onMove, { passive: true });
+    el.addEventListener("touchend", onEnd, { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", onStart);
+      el.removeEventListener("touchmove", onMove);
+      el.removeEventListener("touchend", onEnd);
+    };
+  }, [isTouch]);
+
+  const showHint = hintVisible && !interacted;
+
   return (
-    <div className="relative aspect-square w-full max-w-[560px] mx-auto">
+    <div ref={containerRef} className="relative aspect-square w-full max-w-[560px] mx-auto select-none">
       {/* Glow halo */}
       <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(212,168,67,0.28),transparent_65%)] blur-2xl pointer-events-none" />
       <div className="absolute inset-6 rounded-full bg-[radial-gradient(circle,rgba(136,85,255,0.18),transparent_70%)] blur-2xl pointer-events-none" />
@@ -143,10 +212,34 @@ export function Hero3D() {
           gl={{ antialias: true, alpha: true }}
         >
           <Suspense fallback={null}>
-            <Scene />
+            <Scene pointer={pointer} onInteract={handleInteract} />
           </Suspense>
         </Canvas>
       )}
+
+      {/* Desktop cursor hint */}
+      <div
+        className={`hidden md:flex absolute -bottom-2 left-1/2 -translate-x-1/2 items-center gap-1.5 px-3 py-1.5 rounded-full glass pointer-events-none transition-all duration-700 ${
+          showHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        }`}
+      >
+        <Pointer size={13} className="text-gold" />
+        <span className="text-[11px] font-mono tracking-wider text-gold-dim">Move your cursor</span>
+      </div>
+
+      {/* Mobile touch hint */}
+      <div
+        className={`flex md:hidden absolute -bottom-2 left-1/2 -translate-x-1/2 items-center gap-1.5 px-3 py-1.5 rounded-full glass pointer-events-none transition-all duration-700 ${
+          showHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        }`}
+      >
+        <Smartphone size={13} className="text-gold" />
+        <span className="text-[11px] font-mono tracking-wider text-gold-dim">Drag to explore</span>
+        <span className="tap-ring ml-0.5" />
+      </div>
+
+      {/* Invisible interaction catcher for desktop hover awareness */}
+      <div className="absolute inset-0 cursor-crosshair" onMouseMove={handleInteract} />
     </div>
   );
 }
