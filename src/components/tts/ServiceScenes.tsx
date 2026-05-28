@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 /**
  * Animated scene components for the Services section.
  * Pure SVG + CSS keyframes — no extra runtime deps.
@@ -269,7 +271,7 @@ export function AutomationScene() {
           />
         ))}
         {edges.map(([a, b], i) => (
-          <circle key={`p${i}`} r="2" fill={GOLD} className="nn-packet" style={{ animationDelay: `${i * 0.4}s`, offsetPath: `path('M ${nodes[a].x} ${nodes[a].y} L ${nodes[b].x} ${nodes[b].y}')` } as React.CSSProperties} />
+          <circle key={`p${i}`} r="2" fill={GOLD} className="nn-packet" style={{ animationDelay: `${i * 0.4}s`, offsetPath: `path('M ${nodes[a].x} ${nodes[a].y} L ${nodes[b].x} ${nodes[b].y}')` } as CSSProperties} />
         ))}
         {nodes.map((n, i) => (
           <g key={i} className="nn-node" style={{ animationDelay: `${i * 0.1}s` }}>
