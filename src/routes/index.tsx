@@ -9,7 +9,6 @@ import { Founders } from "@/components/tts/Founders";
 import { Frameworks } from "@/components/tts/Frameworks";
 import { Markets } from "@/components/tts/Markets";
 import { Testimonials } from "@/components/tts/Testimonials";
-import { Careers } from "@/components/tts/Careers";
 import { Contact } from "@/components/tts/Contact";
 import { Footer } from "@/components/tts/Footer";
 
@@ -39,7 +38,6 @@ function Index() {
         <Frameworks />
         <Markets />
         <Testimonials />
-        <Careers />
         <Contact />
       </main>
       <Footer />

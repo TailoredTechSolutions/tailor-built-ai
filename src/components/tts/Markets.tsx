@@ -18,7 +18,7 @@ export function Markets() {
               <p className="mt-3 text-secondary-soft max-w-md">
                 Headquartered in California. Serving clients across North America with full-stack AI and software engagements.
               </p>
-              <a href="mailto:gw4ltn3y@gmail.com" className="mt-2 inline-block text-sm font-mono text-chrome hover:text-gold">gw4ltn3y@gmail.com</a>
+              <a href="mailto:athie@tailoredtechsolutions.org" className="mt-2 inline-block text-sm font-mono text-chrome hover:text-gold">athie@tailoredtechsolutions.org</a>
             </div>
             <div>
               <div className="flex items-center gap-3">
@@ -28,7 +28,17 @@ export function Markets() {
               <p className="mt-3 text-secondary-soft max-w-md">
                 Regional focus across Southeast and East Asia — mobile-first markets with high demand for custom platform engineering.
               </p>
-              <a href="mailto:gwaltn3y@gmail.com" className="mt-2 inline-block text-sm font-mono text-chrome hover:text-gold">gwaltn3y@gmail.com</a>
+              <a href="mailto:gwaltney@tailoredtechsolutions.org" className="mt-2 inline-block text-sm font-mono text-chrome hover:text-gold">gwaltney@tailoredtechsolutions.org</a>
+            </div>
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="w-2 h-2 rounded-full bg-[var(--neon-cyan)] pulse-dot" />
+                <div className="text-xs font-mono uppercase tracking-widest text-[var(--neon-cyan)]">EMEA · Strategic</div>
+              </div>
+              <p className="mt-3 text-secondary-soft max-w-md">
+                Partnerships across the Middle East and Europe — led by co-founder Ameer Al Saati.
+              </p>
+              <a href="mailto:alsaati@tailoredtechsolutions.org" className="mt-2 inline-block text-sm font-mono text-chrome hover:text-gold">alsaati@tailoredtechsolutions.org</a>
             </div>
           </div>
         </Reveal>
