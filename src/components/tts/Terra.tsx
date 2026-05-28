@@ -1,5 +1,6 @@
 import { Users, Truck, Network, RefreshCw, ArrowRight, Github } from "lucide-react";
 import { Reveal } from "./Reveal";
+import { TerraFeatureGrid } from "./FeatureVideo";
 
 const FEATURES = [
   { Icon: Users, t: "Multi-role dashboards", s: "Farmer · Buyer · Driver · Admin · HQ" },
@@ -99,6 +100,10 @@ export function Terra() {
           </div>
         </Reveal>
       </div>
+
+      <Reveal>
+        <TerraFeatureGrid />
+      </Reveal>
     </section>
   );
 }
