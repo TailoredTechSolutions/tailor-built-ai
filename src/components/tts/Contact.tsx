@@ -116,11 +116,11 @@ export function Contact() {
               <div className="mt-8 pt-6 border-t border-subtle grid grid-cols-2 gap-4">
                 <div>
                   <div className="text-[11px] font-mono uppercase tracking-widest text-gold-dim">USA</div>
-                  <a href="mailto:gw4ltn3y@gmail.com" className="block mt-1.5 text-sm font-mono text-chrome hover:text-gold">gw4ltn3y@gmail.com</a>
+                  <a href="mailto:athie@tailoredtechsolutions.org" className="block mt-1.5 text-sm font-mono text-chrome hover:text-gold break-all">athie@tailoredtechsolutions.org</a>
                 </div>
                 <div>
                   <div className="text-[11px] font-mono uppercase tracking-widest text-gold-dim">APAC</div>
-                  <a href="mailto:gwaltn3y@gmail.com" className="block mt-1.5 text-sm font-mono text-chrome hover:text-gold">gwaltn3y@gmail.com</a>
+                  <a href="mailto:gwaltney@tailoredtechsolutions.org" className="block mt-1.5 text-sm font-mono text-chrome hover:text-gold break-all">gwaltney@tailoredtechsolutions.org</a>
                 </div>
               </div>
             </div>
