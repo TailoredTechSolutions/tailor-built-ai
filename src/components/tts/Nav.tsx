@@ -176,7 +176,7 @@ export function Nav() {
 
       {/* Mobile */}
       <div
-        className={`md:hidden fixed inset-0 top-[68px] bg-[rgba(9,9,15,0.97)] backdrop-blur-xl transition-all duration-300 ${
+        className={`md:hidden fixed inset-0 top-[68px] bg-[#09090f] transition-opacity duration-300 z-50 overflow-y-auto ${
           open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
