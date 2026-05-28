@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { Menu, X } from "lucide-react";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { Logo } from "./Logo";
 
 const LINKS = [
@@ -13,16 +14,26 @@ const LINKS = [
 function scrollToId(id: string) {
   const el = document.querySelector(id);
   if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "start" });
+  // Update hash without jumping
+  history.replaceState(null, "", id);
 }
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
+  const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const onHome = pathname === "/";
 
   /* Scroll-spy with IntersectionObserver */
   useEffect(() => {
+    if (!onHome) {
+      setActive("");
+      return;
+    }
     const handle = (entries: IntersectionObserverEntry[]) => {
       // Find the entry with the largest intersectionRatio
       let best = entries[0];
@@ -51,7 +62,7 @@ export function Nav() {
     if (topEl) observer.observe(topEl);
 
     return () => observer.disconnect();
-  }, []);
+  }, [onHome]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -64,11 +75,26 @@ export function Nav() {
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
       e.preventDefault();
       if (open) setOpen(false);
-      // Small delay on mobile so the menu closing animation doesn't fight the scroll
-      const delay = open ? 250 : 0;
+      const delay = open ? 280 : 0;
+      if (!onHome) {
+        // Route home first, then scroll once the section is mounted
+        navigate({ to: "/" }).then(() => {
+          // Wait for sections to render
+          const tryScroll = (attempt = 0) => {
+            const el = document.querySelector(href);
+            if (el) {
+              scrollToId(href);
+            } else if (attempt < 20) {
+              setTimeout(() => tryScroll(attempt + 1), 50);
+            }
+          };
+          setTimeout(tryScroll, 60);
+        });
+        return;
+      }
       setTimeout(() => scrollToId(href), delay);
     },
-    [open]
+    [open, onHome, navigate]
   );
 
   const linkBase =
