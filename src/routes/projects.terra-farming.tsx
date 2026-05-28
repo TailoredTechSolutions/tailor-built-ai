@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Users, Truck, Network, RefreshCw, ShieldCheck } from "lucide-react";
 import { Nav } from "@/components/tts/Nav";
 import { Footer } from "@/components/tts/Footer";
+import { TerraFeatureGrid } from "@/components/tts/FeatureVideo";
 import terraLogo from "@/assets/terra-logo.png";
 
 const TERRA = {
@@ -157,6 +158,18 @@ function TerraFarmingPage() {
                 Start a project
               </a>
             </div>
+          </div>
+        </section>
+
+        <section className="relative py-20 md:py-28" style={{ background: TERRA.brownDeep }}>
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <div className="mb-12">
+              <div className="eyebrow" style={{ color: TERRA.green }}>Product Tour</div>
+              <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold" style={{ color: TERRA.cream }}>
+                Ten features. Ten short videos.
+              </h2>
+            </div>
+            <TerraFeatureGrid />
           </div>
         </section>
       </main>

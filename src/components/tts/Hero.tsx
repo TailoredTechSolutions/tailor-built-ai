@@ -24,7 +24,7 @@ export function Hero() {
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <a
-              href="#terra"
+              href="#projects"
               className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-[var(--gold-bright)] text-[#09090f] font-semibold hover:bg-[var(--gold-mid)] active:scale-[0.98] active:-translate-y-[1px] transition-all"
             >
               Explore Our Work
