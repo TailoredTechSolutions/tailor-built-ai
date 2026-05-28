@@ -585,3 +585,54 @@
     }
   }
 }
+
+/* ============================================================
+   Extra cartoon FX — sparkles, pop bursts, confetti, slide-in
+   ============================================================ */
+@layer utilities {
+  @keyframes sparkle-twinkle {
+    0%, 100% { transform: scale(0.5) rotate(0deg); opacity: 0.4; }
+    50%      { transform: scale(1.2) rotate(45deg); opacity: 1; }
+  }
+  @keyframes pop-burst {
+    0%   { transform: scale(0); opacity: 0; }
+    40%  { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes float-up {
+    0%   { transform: translateY(0); opacity: 0; }
+    20%  { opacity: 1; }
+    100% { transform: translateY(-50px); opacity: 0; }
+  }
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes wave-pulse {
+    0%, 100% { transform: scaleY(0.4); }
+    50%      { transform: scaleY(1); }
+  }
+  @keyframes slide-in-x {
+    from { transform: translateX(-20px); opacity: 0; }
+    to   { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes heart-rise {
+    0%   { transform: translateY(0) scale(0.6); opacity: 0; }
+    20%  { opacity: 1; }
+    100% { transform: translateY(-90px) scale(1.1); opacity: 0; }
+  }
+  .fx-sparkle  { animation: sparkle-twinkle 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .fx-pop      { animation: pop-burst 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; transform-box: fill-box; transform-origin: center; }
+  .fx-float-up { animation: float-up 3s ease-out infinite; transform-box: fill-box; }
+  .fx-spin     { animation: spin-slow 12s linear infinite; transform-box: fill-box; transform-origin: center; }
+  .fx-wave     { animation: wave-pulse 1s ease-in-out infinite; transform-box: fill-box; transform-origin: center bottom; }
+  .fx-slide-x  { animation: slide-in-x 0.6s ease-out forwards; }
+  .fx-heart    { animation: heart-rise 2.8s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fx-sparkle, .fx-pop, .fx-float-up, .fx-spin,
+    .fx-wave, .fx-slide-x, .fx-heart {
+      animation: none !important;
+    }
+  }
+}
