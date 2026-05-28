@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { useDeviceTier } from "@/hooks/use-device-tier";
 
 /**
  * SilkRibbon
@@ -8,16 +9,16 @@ import * as THREE from "three";
  * physical material, slowly orbited by the camera. SSR-safe.
  * pointer-events: none, z-index: -1.
  */
-function Ribbon() {
+function Ribbon({ segments }: { segments: [number, number] }) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const scrollRef = useRef(0);
 
   // Long, dense plane so the sinusoidal displacement reads as flowing silk.
   const geometry = useMemo(() => {
-    const g = new THREE.PlaneGeometry(22, 1.6, 240, 24);
+    const g = new THREE.PlaneGeometry(22, 1.6, segments[0], segments[1]);
     g.rotateY(-Math.PI / 12);
     return g;
-  }, []);
+  }, [segments]);
 
   // Cache original positions so we displace from the rest pose each frame.
   const basePositions = useMemo(() => {
@@ -93,8 +94,9 @@ function OrbitingCamera() {
 
 export function SilkRibbon() {
   const [mounted, setMounted] = useState(false);
+  const { dpr, ribbonSegments, prefersReducedMotion } = useDeviceTier();
   useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
+  if (!mounted || prefersReducedMotion) return null;
 
   return (
     <div
@@ -109,7 +111,7 @@ export function SilkRibbon() {
     >
       <Canvas
         camera={{ position: [0, 3.2, 7.5], fov: 38 }}
-        dpr={[1, 1.5]}
+        dpr={dpr}
         gl={{ antialias: true, alpha: false }}
         style={{ width: "100%", height: "100%" }}
       >
@@ -130,7 +132,7 @@ export function SilkRibbon() {
         <ambientLight intensity={0.18} color="#1a1626" />
 
         <OrbitingCamera />
-        <Ribbon />
+        <Ribbon segments={ribbonSegments} />
       </Canvas>
     </div>
   );
