@@ -1,9 +1,13 @@
 import { Mail } from "lucide-react";
 import { Reveal } from "./Reveal";
+import andrewPhoto from "@/assets/founder-andrew.jpg";
+import ameerPhoto from "@/assets/founder-ameer.jpg";
 
 const FOUNDERS = [
   {
     initials: "AG",
+    photo: andrewPhoto,
+    photoPosition: "50% 30%",
     name: "Andrew K. Gwaltney",
     role: "Co-Founder & CEO · PE",
     bio: "Andrew brings a rare combination of rigorous analytical engineering — honed through years of structural design — and full-stack software product development. He leads TTS's technical strategy, client relationships, and AI integration practice.",
@@ -12,6 +16,8 @@ const FOUNDERS = [
   },
   {
     initials: "AS",
+    photo: ameerPhoto,
+    photoPosition: "50% 35%",
     name: "Ameer Al Saati",
     role: "Co-Founder & CTO",
     bio: "Ameer drives the engineering depth at TTS — from embedded systems and firmware to scalable cloud architectures. His background spans multiple technology domains with a focus on building systems that perform under real-world conditions.",
@@ -36,9 +42,18 @@ export function Founders() {
             <Reveal key={f.name} delay={i * 100}>
               <article className="h-full bg-card-soft border border-subtle rounded-2xl p-8 md:p-10 gold-diffuse hover:border-gold transition-all">
                 <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 rounded-full border-2 border-gold-dim bg-[var(--gold-glow)] flex items-center justify-center font-display text-xl font-bold text-gold">
-                    {f.initials}
-                  </div>
+                  {f.photo ? (
+                    <img
+                      src={f.photo}
+                      alt={f.name}
+                      className="w-16 h-16 rounded-full border-2 border-gold-dim object-cover shrink-0"
+                      style={{ objectPosition: f.photoPosition }}
+                    />
+                  ) : (
+                    <div className="w-16 h-16 rounded-full border-2 border-gold-dim bg-[var(--gold-glow)] flex items-center justify-center font-display text-xl font-bold text-gold shrink-0">
+                      {f.initials}
+                    </div>
+                  )}
                   <div>
                     <h3 className="font-display text-2xl font-bold text-chrome leading-tight">{f.name}</h3>
                     <div className="text-xs font-mono uppercase tracking-widest text-gold-dim mt-1">{f.role}</div>
