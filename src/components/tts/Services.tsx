@@ -7,6 +7,13 @@ import {
   AutomationScene,
   MobileScene,
   WebScene,
+  SocialScene,
+  ContentScene,
+  ChatBotScene,
+  VoiceAgentScene,
+  VirtualAssistantScene,
+  MarketingTeamScene,
+  CallCenterScene,
 } from "./ServiceScenes";
 
 const SERVICES = [
@@ -40,6 +47,41 @@ const SERVICES = [
     name: "Web Platform Engineering",
     body: "Full-stack web apps from architecture to deployment. React, TypeScript, Supabase — modern stacks that don't rot.",
   },
+  {
+    Scene: SocialScene,
+    name: "Social Media Management",
+    body: "End-to-end social ops — scheduling, community engagement, analytics, and growth playbooks across every major platform.",
+  },
+  {
+    Scene: ContentScene,
+    name: "Content Creation Studio",
+    body: "Short-form video, branded graphics, copy, and campaign assets produced at studio quality and shipped on cadence.",
+  },
+  {
+    Scene: ChatBotScene,
+    name: "Personalized Chat Bots",
+    body: "Custom-trained bots that speak in your brand voice — onboarding, support, qualification, and retention without the script feel.",
+  },
+  {
+    Scene: VoiceAgentScene,
+    name: "Custom Super Agents",
+    body: "Voice-first agents with state-of-the-art turn-taking, interruption handling, and natural cadence. Smoother flow than anything else on the market.",
+  },
+  {
+    Scene: VirtualAssistantScene,
+    name: "AI Virtual Assistants",
+    body: "Always-on assistants that book your calendar, triage email, manage CRMs, run errands across your tools — your second brain on shift.",
+  },
+  {
+    Scene: MarketingTeamScene,
+    name: "Fully Automated Marketing Teams",
+    body: "An entire growth org as a service — strategists, copywriters, designers, and analysts orchestrated by AI to run campaigns end-to-end.",
+  },
+  {
+    Scene: CallCenterScene,
+    name: "Automated Call Centers",
+    body: "Hundreds of concurrent AI agents handling inbound and outbound calls — qualification, support, surveys, scheduling — at a fraction of the cost.",
+  },
 ];
 
 export function Services() {
@@ -53,7 +95,7 @@ export function Services() {
           </h2>
         </Reveal>
 
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {SERVICES.map((s, i) => (
             <Reveal key={s.name} delay={i * 60}>
               <a
