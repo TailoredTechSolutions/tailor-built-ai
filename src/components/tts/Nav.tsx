@@ -34,34 +34,60 @@ export function Nav() {
       setActive("");
       return;
     }
-    const handle = (entries: IntersectionObserverEntry[]) => {
-      // Find the entry with the largest intersectionRatio
-      let best = entries[0];
-      for (const e of entries) {
-        if (e.intersectionRatio > (best?.intersectionRatio ?? 0)) {
-          best = e;
+    const ids = [...LINKS.map((l) => l.href), "#top"];
+    const targets = ids
+      .map((id) => document.querySelector(id) as HTMLElement | null)
+      .filter((el): el is HTMLElement => !!el);
+    if (targets.length === 0) return;
+
+    // Activation line sits just below the fixed header (68px) so the
+    // underline switches as a section's top crosses under the nav.
+    const NAV_H = 68;
+    const computeActive = () => {
+      const line = NAV_H + 1;
+      let current: HTMLElement | null = null;
+      for (const el of targets) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= line && rect.bottom > line) {
+          current = el;
+          break;
         }
       }
-      if (best && best.isIntersecting) {
-        setActive(`#${best.target.id}`);
+      // Fallback: last section whose top is above the line
+      if (!current) {
+        let bestTop = -Infinity;
+        for (const el of targets) {
+          const top = el.getBoundingClientRect().top;
+          if (top <= line && top > bestTop) {
+            bestTop = top;
+            current = el;
+          }
+        }
       }
+      // Near page bottom: force last section active so trailing links light up
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+        current = targets[targets.length - 1];
+      }
+      setActive(current ? `#${current.id}` : "");
     };
 
-    const observer = new IntersectionObserver(handle, {
-      rootMargin: "-45% 0px -45% 0px",
-      threshold: 0,
-    });
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        computeActive();
+      });
+    };
 
-    for (const l of LINKS) {
-      const el = document.querySelector(l.href);
-      if (el) observer.observe(el);
-    }
-
-    // Also observe #top (Hero) even though it's not in LINKS
-    const topEl = document.querySelector("#top");
-    if (topEl) observer.observe(topEl);
-
-    return () => observer.disconnect();
+    computeActive();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [onHome]);
 
   useEffect(() => {
