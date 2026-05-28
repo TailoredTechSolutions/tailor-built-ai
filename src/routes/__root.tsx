@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "TailoredTechSolutions.org" },
+      { name: "description", content: "powered by: Digital Cartel Global" },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "TailoredTechSolutions.org" },
+      { property: "og:description", content: "powered by: Digital Cartel Global" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "TailoredTechSolutions.org" },
+      { name: "twitter:description", content: "powered by: Digital Cartel Global" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9f12b2f8-6403-4e77-bf65-704c2a6a6a0d/id-preview-d2d16ad4--3bcc0fef-41d1-468f-b6f1-160b85411afa.lovable.app-1779983372750.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9f12b2f8-6403-4e77-bf65-704c2a6a6a0d/id-preview-d2d16ad4--3bcc0fef-41d1-468f-b6f1-160b85411afa.lovable.app-1779983372750.png" },
     ],
     links: [
       {
