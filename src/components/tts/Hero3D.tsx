@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Icosahedron, Sphere, Points, PointMaterial } from "@react-three/drei";
-import { Move, Pointer, Smartphone } from "lucide-react";
+import { Pointer, Smartphone } from "lucide-react";
 import * as THREE from "three";
+import { useDeviceTier } from "@/hooks/use-device-tier";
 
-function ParticleField() {
+function ParticleField({ count }: { count: number }) {
   const ref = useRef<THREE.Points>(null!);
   const [positions] = useState(() => {
-    const arr = new Float32Array(1200 * 3);
-    for (let i = 0; i < 1200; i++) {
+    const arr = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
       const r = 2.4 + Math.random() * 2.6;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
@@ -102,7 +103,15 @@ function Core({ pointer }: { pointer: React.MutableRefObject<{ x: number; y: num
   );
 }
 
-function Scene({ pointer, onInteract }: { pointer: React.MutableRefObject<{ x: number; y: number }>; onInteract?: () => void }) {
+function Scene({
+  pointer,
+  onInteract,
+  particleCount,
+}: {
+  pointer: React.MutableRefObject<{ x: number; y: number }>;
+  onInteract?: () => void;
+  particleCount: number;
+}) {
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
       pointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -119,7 +128,7 @@ function Scene({ pointer, onInteract }: { pointer: React.MutableRefObject<{ x: n
       <pointLight position={[4, 4, 4]} intensity={1.4} color="#d4a843" />
       <pointLight position={[-5, -3, -3]} intensity={1.2} color="#8855ff" />
       <pointLight position={[0, 0, 3]} intensity={0.6} color="#3aa0ff" />
-      <ParticleField />
+      <ParticleField count={particleCount} />
       <Core pointer={pointer} />
     </>
   );
@@ -129,17 +138,11 @@ export function Hero3D() {
   const [mounted, setMounted] = useState(false);
   const [hintVisible, setHintVisible] = useState(true);
   const [interacted, setInteracted] = useState(false);
-  const [isTouch, setIsTouch] = useState(false);
   const pointer = useRef({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const { dpr, particleCount, isTouch } = useDeviceTier();
 
   useEffect(() => setMounted(true), []);
-
-  // Detect touch device
-  useEffect(() => {
-    const detect = () => setIsTouch("ontouchstart" in window || navigator.maxTouchPoints > 0);
-    detect();
-  }, []);
 
   // Auto-hide hint after 5s
   useEffect(() => {
@@ -208,11 +211,11 @@ export function Hero3D() {
         <Canvas
           className="!absolute inset-0"
           camera={{ position: [0, 0, 5.2], fov: 45 }}
-          dpr={[1, 2]}
+          dpr={dpr}
           gl={{ antialias: true, alpha: true }}
         >
           <Suspense fallback={null}>
-            <Scene pointer={pointer} onInteract={handleInteract} />
+            <Scene pointer={pointer} onInteract={handleInteract} particleCount={particleCount} />
           </Suspense>
         </Canvas>
       )}
