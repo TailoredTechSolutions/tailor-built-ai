@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProjectsTerraFarmingRouteImport } from './routes/projects.terra-farming'
 import { Route as ProjectsBigLeagueSwingsRouteImport } from './routes/projects.big-league-swings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsTerraFarmingRoute = ProjectsTerraFarmingRouteImport.update({
+  id: '/projects/terra-farming',
+  path: '/projects/terra-farming',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsBigLeagueSwingsRoute = ProjectsBigLeagueSwingsRouteImport.update({
@@ -26,27 +32,35 @@ const ProjectsBigLeagueSwingsRoute = ProjectsBigLeagueSwingsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
+  '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
+  '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
+  '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/projects/big-league-swings'
+  fullPaths: '/' | '/projects/big-league-swings' | '/projects/terra-farming'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/projects/big-league-swings'
-  id: '__root__' | '/' | '/projects/big-league-swings'
+  to: '/' | '/projects/big-league-swings' | '/projects/terra-farming'
+  id:
+    | '__root__'
+    | '/'
+    | '/projects/big-league-swings'
+    | '/projects/terra-farming'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProjectsBigLeagueSwingsRoute: typeof ProjectsBigLeagueSwingsRoute
+  ProjectsTerraFarmingRoute: typeof ProjectsTerraFarmingRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -56,6 +70,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/terra-farming': {
+      id: '/projects/terra-farming'
+      path: '/projects/terra-farming'
+      fullPath: '/projects/terra-farming'
+      preLoaderRoute: typeof ProjectsTerraFarmingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects/big-league-swings': {
@@ -71,6 +92,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProjectsBigLeagueSwingsRoute: ProjectsBigLeagueSwingsRoute,
+  ProjectsTerraFarmingRoute: ProjectsTerraFarmingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

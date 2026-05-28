@@ -10,8 +10,8 @@ const PROJECTS = [
     tag: "Agriculture Intelligence",
     blurb: "Multi-role farm-to-table marketplace with real-time logistics, compliance, and commission engine.",
     logo: terraLogo,
-    href: "#terra" as const,
-    isInternal: false,
+    href: "/projects/terra-farming" as const,
+    isInternal: true,
     splash: {
       background: "linear-gradient(140deg,#3b2410 0%,#241608 60%,#0e0805 100%)",
       ring: "rgba(122,196,98,0.35)",
