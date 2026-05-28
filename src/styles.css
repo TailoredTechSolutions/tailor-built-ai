@@ -317,3 +317,222 @@
     animation: touch-ping 2s ease-out 0.6s infinite;
   }
 }
+
+/* ============================================================
+   Service Scenes — animated SVG vignettes for Services section
+   ============================================================ */
+@layer utilities {
+  /* Shared: subtle fade-up when scene enters */
+  @keyframes scene-fade-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* --- Analytics --- */
+  @keyframes kpi-pop {
+    0%   { opacity: 0; transform: translateY(6px) scale(0.96); }
+    60%  { opacity: 1; transform: translateY(0) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .scene-analytics .kpi-tile {
+    opacity: 0;
+    transform-origin: center;
+    animation: kpi-pop 0.7s ease-out forwards;
+  }
+  @keyframes bar-rise {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+  }
+  .scene-analytics .bar {
+    transform: scaleY(0);
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    animation: bar-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes line-draw {
+    from { stroke-dashoffset: 200; }
+    to   { stroke-dashoffset: 0; }
+  }
+  .scene-analytics .line-chart {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: line-draw 1.6s ease-out 0.9s forwards;
+  }
+  @keyframes dot-pop {
+    from { opacity: 0; transform: scale(0); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .scene-analytics .line-dot {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: dot-pop 0.3s ease-out forwards;
+  }
+  @keyframes scan-bar {
+    0%   { transform: translateY(0); opacity: 0.6; }
+    50%  { opacity: 0.3; }
+    100% { transform: translateY(160px); opacity: 0.6; }
+  }
+  .scene-analytics .scan-bar {
+    animation: scan-bar 3.5s ease-in-out infinite;
+  }
+
+  /* --- Cyber --- */
+  .scene-cyber .cyber-grid {
+    background-image:
+      linear-gradient(rgba(212,168,67,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212,168,67,0.08) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  @keyframes pulse-ring {
+    0%   { transform: scale(0.4); opacity: 0.8; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+  .scene-cyber .pulse-ring {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pulse-ring 3s ease-out infinite;
+  }
+  @keyframes shield-glow {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(212,168,67,0.4)); }
+    50%      { filter: drop-shadow(0 0 12px rgba(212,168,67,0.7)); }
+  }
+  .scene-cyber .shield-group {
+    animation: shield-glow 2.8s ease-in-out infinite;
+  }
+  @keyframes packet-blocked {
+    0%   { transform: translateX(0); opacity: 1; }
+    60%  { transform: translateX(120px); opacity: 1; }
+    70%  { transform: translateX(130px) scale(1.8); opacity: 0.4; }
+    100% { transform: translateX(130px) scale(0); opacity: 0; }
+  }
+  .scene-cyber .packet {
+    animation: packet-blocked 3.2s linear infinite;
+  }
+  @keyframes packet-out {
+    0%   { transform: translateX(0); opacity: 0; }
+    10%  { opacity: 1; }
+    100% { transform: translateX(-200px); opacity: 0; }
+  }
+  .scene-cyber .packet-safe {
+    animation: packet-out 2.6s linear infinite;
+  }
+  @keyframes scan-beam-y {
+    0%   { transform: translateY(0); opacity: 0.7; }
+    100% { transform: translateY(125px); opacity: 0.3; }
+  }
+  .scene-cyber .scan-beam {
+    animation: scan-beam-y 2.4s ease-in-out infinite alternate;
+  }
+
+  /* --- Sales Agent --- */
+  @keyframes call-wave {
+    0%   { opacity: 0; transform: scale(0.5); }
+    40%  { opacity: 0.8; }
+    100% { opacity: 0; transform: scale(1.6); }
+  }
+  .scene-sales .call-wave {
+    transform-box: fill-box;
+    transform-origin: left center;
+    animation: call-wave 2s ease-out infinite;
+  }
+  @keyframes mini-wave {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(-4px); }
+  }
+  .scene-sales .mini-wave {
+    animation: mini-wave 1.4s ease-in-out infinite;
+  }
+  @keyframes bubble-float {
+    0%   { opacity: 0; transform: translateX(20px) translateY(0); }
+    15%  { opacity: 1; transform: translateX(0) translateY(0); }
+    85%  { opacity: 1; transform: translateX(0) translateY(-6px); }
+    100% { opacity: 0; transform: translateX(-10px) translateY(-12px); }
+  }
+  .scene-sales .call-bubble {
+    opacity: 0;
+    animation: bubble-float 3.6s ease-in-out infinite;
+  }
+
+  /* --- Automation / Neural Net --- */
+  @keyframes nn-node-pulse {
+    0%, 100% { filter: drop-shadow(0 0 2px rgba(212,168,67,0.4)); }
+    50%      { filter: drop-shadow(0 0 6px rgba(212,168,67,0.9)); }
+  }
+  .scene-automation .nn-node {
+    opacity: 0;
+    animation:
+      scene-fade-up 0.5s ease-out forwards,
+      nn-node-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes nn-edge-draw {
+    from { stroke-dashoffset: 200; opacity: 0; }
+    to   { stroke-dashoffset: 0; opacity: 0.6; }
+  }
+  .scene-automation .nn-edge {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: nn-edge-draw 1.2s ease-out forwards;
+  }
+  @keyframes nn-packet-travel {
+    0%   { offset-distance: 0%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+  .scene-automation .nn-packet {
+    animation: nn-packet-travel 2.2s linear infinite;
+  }
+
+  /* --- Mobile --- */
+  @keyframes card-slide-in {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .scene-mobile .phone-card {
+    opacity: 0;
+    transform-box: fill-box;
+    animation: card-slide-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes ui-float {
+    0%   { opacity: 0; transform: translateY(12px); }
+    20%  { opacity: 1; transform: translateY(0); }
+    80%  { opacity: 1; transform: translateY(-4px); }
+    100% { opacity: 0; transform: translateY(-12px); }
+  }
+  .scene-mobile .ui-float {
+    opacity: 0;
+    transform-box: fill-box;
+    animation: ui-float 4s ease-in-out infinite;
+  }
+
+  /* --- Web --- */
+  @keyframes web-block-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .scene-web .web-block {
+    opacity: 0;
+    transform-box: fill-box;
+    animation: web-block-in 0.5s ease-out forwards;
+  }
+  @keyframes cursor-path {
+    0%   { transform: translate(60px, 200px); }
+    25%  { transform: translate(180px, 100px); }
+    50%  { transform: translate(310px, 110px); }
+    75%  { transform: translate(250px, 175px); }
+    100% { transform: translate(60px, 200px); }
+  }
+  .scene-web .web-cursor {
+    animation: cursor-path 8s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scene-analytics *, .scene-cyber *, .scene-sales *,
+    .scene-automation *, .scene-mobile *, .scene-web * {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+}
