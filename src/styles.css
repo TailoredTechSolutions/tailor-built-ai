@@ -197,16 +197,16 @@
      A soft vertical gradient keeps text legible without hiding the bg. */
   .bg-void {
     background: linear-gradient(180deg,
-      rgba(9, 9, 15, 0.55) 0%,
-      rgba(9, 9, 15, 0.78) 50%,
-      rgba(9, 9, 15, 0.55) 100%);
+      rgba(9, 9, 15, 0.35) 0%,
+      rgba(9, 9, 15, 0.60) 50%,
+      rgba(9, 9, 15, 0.35) 100%);
     backdrop-filter: blur(2px);
   }
   .bg-deep {
     background: linear-gradient(180deg,
-      rgba(13, 13, 26, 0.50) 0%,
-      rgba(13, 13, 26, 0.72) 50%,
-      rgba(13, 13, 26, 0.50) 100%);
+      rgba(13, 13, 26, 0.30) 0%,
+      rgba(13, 13, 26, 0.55) 50%,
+      rgba(13, 13, 26, 0.30) 100%);
     backdrop-filter: blur(2px);
   }
   .bg-card-soft { background-color: rgba(20, 20, 32, 0.72); backdrop-filter: blur(6px); }
