@@ -46,37 +46,120 @@ export function Markets() {
         <Reveal delay={120}>
           <div className="relative aspect-[4/3] rounded-2xl border border-subtle bg-card-soft overflow-hidden">
             <div className="absolute inset-0 circuit-grid opacity-[0.6]" />
-            <svg viewBox="0 0 800 500" className="absolute inset-0 w-full h-full">
-              {/* Stylized continents - dots */}
-              {Array.from({ length: 320 }).map((_, i) => {
-                const x = (i * 37) % 800;
-                const y = (i * 71) % 500;
-                const land = (Math.sin(x * 0.02) + Math.cos(y * 0.025)) > 0.2;
-                if (!land) return null;
-                return <circle key={i} cx={x} cy={y} r="1.4" fill="rgba(212,168,67,0.25)" />;
-              })}
-              {/* USA pulse */}
-              <g>
-                <circle cx="180" cy="200" r="6" fill="#d4a843" />
-                <circle cx="180" cy="200" r="14" fill="none" stroke="#d4a843" strokeWidth="1" className="pulse-dot" />
-              </g>
-              {/* APAC pulse */}
-              <g>
-                <circle cx="600" cy="240" r="6" fill="#00ffcc" />
-                <circle cx="600" cy="240" r="14" fill="none" stroke="#00ffcc" strokeWidth="1" className="pulse-dot" />
-              </g>
-              {/* Trace */}
-              <path d="M 180 200 Q 400 80 600 240" fill="none" stroke="url(#mapG)" strokeWidth="1.2" className="dash-flow" />
-              <defs>
-                <linearGradient id="mapG" x1="0" x2="1">
-                  <stop offset="0%" stopColor="#d4a843" />
-                  <stop offset="100%" stopColor="#00ffcc" />
-                </linearGradient>
-              </defs>
-            </svg>
+            <WorldMap />
           </div>
         </Reveal>
       </div>
     </section>
+  );
+}
+
+// Approximate continent silhouettes via dot-matrix.
+// Each entry: [cx, cy, rx, ry] — elliptical regions filled with dots.
+const CONTINENTS: Array<[number, number, number, number]> = [
+  [150, 170, 70, 55],   // North America
+  [210, 320, 35, 60],   // South America
+  [395, 175, 45, 50],   // Europe
+  [430, 290, 55, 80],   // Africa
+  [560, 200, 90, 70],   // Asia
+  [650, 360, 30, 25],   // Australia
+];
+
+function continentDots() {
+  const dots: Array<{ x: number; y: number; o: number }> = [];
+  let seed = 1;
+  const rand = () => {
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280;
+  };
+  for (const [cx, cy, rx, ry] of CONTINENTS) {
+    const count = Math.round((rx * ry) / 28);
+    for (let i = 0; i < count; i++) {
+      // rejection-sample inside the ellipse
+      let x = 0, y = 0;
+      for (let t = 0; t < 8; t++) {
+        const u = rand() * 2 - 1;
+        const v = rand() * 2 - 1;
+        if (u * u + v * v <= 1) {
+          x = cx + u * rx;
+          y = cy + v * ry;
+          break;
+        }
+      }
+      dots.push({ x, y, o: 0.18 + rand() * 0.32 });
+    }
+  }
+  return dots;
+}
+
+const DOTS = continentDots();
+
+const PINS = {
+  usa:  { x: 150, y: 175, color: "#d4a843", label: "USA",  sub: "HQ" },
+  emea: { x: 410, y: 185, color: "#00ffcc", label: "EMEA", sub: "Strategic" },
+  apac: { x: 600, y: 230, color: "#00ffcc", label: "APAC", sub: "Active" },
+};
+
+function WorldMap() {
+  return (
+    <svg viewBox="0 0 800 500" className="absolute inset-0 w-full h-full">
+      <defs>
+        <linearGradient id="arcGoldCyan" x1="0" x2="1">
+          <stop offset="0%" stopColor="#d4a843" />
+          <stop offset="100%" stopColor="#00ffcc" />
+        </linearGradient>
+        <radialGradient id="pinGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="currentColor" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+
+      {/* Continent dot matrix */}
+      <g>
+        {DOTS.map((d, i) => (
+          <circle key={i} cx={d.x} cy={d.y} r="1.6" fill="rgba(212,168,67,0.55)" opacity={d.o * 1.6} />
+        ))}
+      </g>
+
+      {/* Arcs: USA -> EMEA and USA -> APAC */}
+      <path
+        d={`M ${PINS.usa.x} ${PINS.usa.y} Q ${(PINS.usa.x + PINS.emea.x) / 2} ${Math.min(PINS.usa.y, PINS.emea.y) - 80} ${PINS.emea.x} ${PINS.emea.y}`}
+        fill="none" stroke="url(#arcGoldCyan)" strokeWidth="1.2" className="dash-flow"
+      />
+      <path
+        d={`M ${PINS.usa.x} ${PINS.usa.y} Q ${(PINS.usa.x + PINS.apac.x) / 2} ${Math.min(PINS.usa.y, PINS.apac.y) - 130} ${PINS.apac.x} ${PINS.apac.y}`}
+        fill="none" stroke="url(#arcGoldCyan)" strokeWidth="1.2" className="dash-flow"
+      />
+
+      {/* Pins */}
+      {Object.values(PINS).map((p) => (
+        <g key={p.label} style={{ color: p.color }}>
+          <circle cx={p.x} cy={p.y} r="28" fill="url(#pinGlow)" />
+          <circle cx={p.x} cy={p.y} r="14" fill="none" stroke={p.color} strokeWidth="1" opacity="0.6" className="pulse-dot" />
+          <circle cx={p.x} cy={p.y} r="5.5" fill={p.color} />
+          <text
+            x={p.x} y={p.y - 22}
+            textAnchor="middle"
+            fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"
+            fontSize="13"
+            fontWeight="700"
+            letterSpacing="2"
+            fill={p.color}
+          >
+            {p.label}
+          </text>
+          <text
+            x={p.x} y={p.y + 24}
+            textAnchor="middle"
+            fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"
+            fontSize="9"
+            letterSpacing="1.5"
+            fill="rgba(220,220,230,0.55)"
+          >
+            {p.sub.toUpperCase()}
+          </text>
+        </g>
+      ))}
+    </svg>
   );
 }
