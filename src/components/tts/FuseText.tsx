@@ -32,7 +32,7 @@ export function FuseText({
   useEffect(() => {
     if (!textRef.current) return;
     try {
-      const measured = (textRef.current as unknown as SVGGeometryElement).getComputedTextLength?.();
+      const measured = (textRef.current as SVGTextElement).getComputedTextLength?.();
       if (measured && measured > 0) setLen(Math.max(measured * 2.2, 800));
     } catch {
       /* ignore */
