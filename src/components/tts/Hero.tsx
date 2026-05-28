@@ -1,5 +1,5 @@
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { HeroOrb } from "./HeroOrb";
+import { Hero3D } from "./Hero3D";
 
 export function Hero() {
   return (
@@ -53,7 +53,7 @@ export function Hero() {
 
         {/* Right */}
         <div className="relative">
-          <HeroOrb />
+          <Hero3D />
 
           {/* Floating glass cards */}
           <div className="hidden sm:block absolute -left-2 top-6 glass rounded-xl px-4 py-3 float-y" style={{ animationDelay: "0s" }}>
