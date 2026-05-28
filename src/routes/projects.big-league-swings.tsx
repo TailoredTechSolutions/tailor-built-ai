@@ -22,6 +22,8 @@ export const Route = createFileRoute("/projects/big-league-swings")({
       { property: "og:description", content: "Mobile batting-cage platform with Hit Trax integration. Built by Tailored Tech Solutions." },
       { property: "og:type", content: "article" },
       { property: "og:url", content: "https://tailoredtechsolutions.org/projects/big-league-swings" },
+      { name: "twitter:title", content: "Big League Swings — Mobile Hit Trax Experience" },
+      { name: "twitter:description", content: "Mobile batting-cage platform with Hit Trax integration. Built by Tailored Tech Solutions." },
     ],
     links: [
       { rel: "canonical", href: "https://tailoredtechsolutions.org/projects/big-league-swings" },

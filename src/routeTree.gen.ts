@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsTerraFarmingRouteImport } from './routes/projects.terra-farming'
 import { Route as ProjectsBigLeagueSwingsRouteImport } from './routes/projects.big-league-swings'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,40 +37,60 @@ const ProjectsBigLeagueSwingsRoute = ProjectsBigLeagueSwingsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
   '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
   '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
   '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/projects/big-league-swings' | '/projects/terra-farming'
+  fullPaths:
+    | '/'
+    | '/sitemap.xml'
+    | '/projects/big-league-swings'
+    | '/projects/terra-farming'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/projects/big-league-swings' | '/projects/terra-farming'
+  to:
+    | '/'
+    | '/sitemap.xml'
+    | '/projects/big-league-swings'
+    | '/projects/terra-farming'
   id:
     | '__root__'
     | '/'
+    | '/sitemap.xml'
     | '/projects/big-league-swings'
     | '/projects/terra-farming'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ProjectsBigLeagueSwingsRoute: typeof ProjectsBigLeagueSwingsRoute
   ProjectsTerraFarmingRoute: typeof ProjectsTerraFarmingRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -91,6 +117,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ProjectsBigLeagueSwingsRoute: ProjectsBigLeagueSwingsRoute,
   ProjectsTerraFarmingRoute: ProjectsTerraFarmingRoute,
 }

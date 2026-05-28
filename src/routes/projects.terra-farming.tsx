@@ -24,6 +24,8 @@ export const Route = createFileRoute("/projects/terra-farming")({
       { property: "og:description", content: "Multi-role farm-to-table marketplace with real-time logistics, compliance, and commission engine. Built by Tailored Tech Solutions." },
       { property: "og:type", content: "article" },
       { property: "og:url", content: "https://tailoredtechsolutions.org/projects/terra-farming" },
+      { name: "twitter:title", content: "Terra Farming — Agriculture Intelligence Platform" },
+      { name: "twitter:description", content: "Multi-role farm-to-table marketplace with real-time logistics, compliance, and commission engine. Built by Tailored Tech Solutions." },
     ],
     links: [
       { rel: "canonical", href: "https://tailoredtechsolutions.org/projects/terra-farming" },
