@@ -100,8 +100,7 @@ export function Terra() {
             {/* Second device behind */}
             <div
               className="absolute -left-6 top-12 w-[220px] h-[440px] rounded-[36px] hidden md:block opacity-70"
-              style={{ background: "#1a1208", border: "1px solid rgba(139,90,43,0.35)" }}
-              style={{ transform: "rotateY(-22deg) rotateX(8deg) translateZ(-60px)" }}
+              style={{ background: "#1a1208", border: "1px solid rgba(139,90,43,0.35)", transform: "rotateY(-22deg) rotateX(8deg) translateZ(-60px)" }}
             />
           </div>
         </Reveal>
