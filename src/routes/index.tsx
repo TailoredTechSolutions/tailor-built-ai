@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/tts/Nav";
 import { Hero } from "@/components/tts/Hero";
+import { SilkRibbon } from "@/components/tts/SilkRibbon";
 import { Marquee } from "@/components/tts/Marquee";
 import { Services } from "@/components/tts/Services";
 import { Terra } from "@/components/tts/Terra";
@@ -26,7 +27,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="bg-void text-chrome">
+    <div className="text-chrome relative">
+      <SilkRibbon />
       <Nav />
       <main>
         <Hero />
