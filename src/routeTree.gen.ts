@@ -15,6 +15,7 @@ import { Route as ProjectsTerraFarmingRouteImport } from './routes/projects.terr
 import { Route as ProjectsBigLeagueSwingsRouteImport } from './routes/projects.big-league-swings'
 import { Route as BlogHowToBuildCustomAiAgentsRouteImport } from './routes/blog.how-to-build-custom-ai-agents'
 import { Route as BlogAiAgentsCustomerSupportRouteImport } from './routes/blog.ai-agents-customer-support'
+import { Route as BlogAiAgentUseCasesRouteImport } from './routes/blog.ai-agent-use-cases'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -48,10 +49,16 @@ const BlogAiAgentsCustomerSupportRoute =
     path: '/blog/ai-agents-customer-support',
     getParentRoute: () => rootRouteImport,
   } as any)
+const BlogAiAgentUseCasesRoute = BlogAiAgentUseCasesRouteImport.update({
+  id: '/blog/ai-agent-use-cases',
+  path: '/blog/ai-agent-use-cases',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/ai-agent-use-cases': typeof BlogAiAgentUseCasesRoute
   '/blog/ai-agents-customer-support': typeof BlogAiAgentsCustomerSupportRoute
   '/blog/how-to-build-custom-ai-agents': typeof BlogHowToBuildCustomAiAgentsRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
@@ -60,6 +67,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/ai-agent-use-cases': typeof BlogAiAgentUseCasesRoute
   '/blog/ai-agents-customer-support': typeof BlogAiAgentsCustomerSupportRoute
   '/blog/how-to-build-custom-ai-agents': typeof BlogHowToBuildCustomAiAgentsRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/ai-agent-use-cases': typeof BlogAiAgentUseCasesRoute
   '/blog/ai-agents-customer-support': typeof BlogAiAgentsCustomerSupportRoute
   '/blog/how-to-build-custom-ai-agents': typeof BlogHowToBuildCustomAiAgentsRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/sitemap.xml'
+    | '/blog/ai-agent-use-cases'
     | '/blog/ai-agents-customer-support'
     | '/blog/how-to-build-custom-ai-agents'
     | '/projects/big-league-swings'
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/sitemap.xml'
+    | '/blog/ai-agent-use-cases'
     | '/blog/ai-agents-customer-support'
     | '/blog/how-to-build-custom-ai-agents'
     | '/projects/big-league-swings'
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/sitemap.xml'
+    | '/blog/ai-agent-use-cases'
     | '/blog/ai-agents-customer-support'
     | '/blog/how-to-build-custom-ai-agents'
     | '/projects/big-league-swings'
@@ -104,6 +116,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  BlogAiAgentUseCasesRoute: typeof BlogAiAgentUseCasesRoute
   BlogAiAgentsCustomerSupportRoute: typeof BlogAiAgentsCustomerSupportRoute
   BlogHowToBuildCustomAiAgentsRoute: typeof BlogHowToBuildCustomAiAgentsRoute
   ProjectsBigLeagueSwingsRoute: typeof ProjectsBigLeagueSwingsRoute
@@ -154,12 +167,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogAiAgentsCustomerSupportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/ai-agent-use-cases': {
+      id: '/blog/ai-agent-use-cases'
+      path: '/blog/ai-agent-use-cases'
+      fullPath: '/blog/ai-agent-use-cases'
+      preLoaderRoute: typeof BlogAiAgentUseCasesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  BlogAiAgentUseCasesRoute: BlogAiAgentUseCasesRoute,
   BlogAiAgentsCustomerSupportRoute: BlogAiAgentsCustomerSupportRoute,
   BlogHowToBuildCustomAiAgentsRoute: BlogHowToBuildCustomAiAgentsRoute,
   ProjectsBigLeagueSwingsRoute: ProjectsBigLeagueSwingsRoute,
