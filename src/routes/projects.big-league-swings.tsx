@@ -79,7 +79,7 @@ function BigLeagueSwingsPage() {
                   className="mt-4 font-display text-5xl md:text-7xl font-extrabold tracking-tighter"
                   style={{ color: BLS.cream }}
                 >
-                  Big League <span style={{ color: BLS.blueLight }}>Swings</span>
+                  Big League <span style={{ color: BLS.blueLight }}>Swings</span> — Mobile Hit Trax Experience
                 </h1>
                 <p className="mt-5 text-lg" style={{ color: "#cbd5e1" }}>
                   A mobile Hit Trax experience — pro-grade batting analytics delivered anywhere the field can be set up.
