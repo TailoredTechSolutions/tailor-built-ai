@@ -40,23 +40,5 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  return (
-    <div className="text-chrome relative">
-      <SilkRibbon />
-      <Nav />
-      <main>
-        <Hero />
-        <Marquee />
-        <Services />
-        <Projects />
-        <Stack />
-        <Founders />
-        <Frameworks />
-        <Markets />
-        <Testimonials />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
-  );
+  return <SnapScrollHero />;
 }
