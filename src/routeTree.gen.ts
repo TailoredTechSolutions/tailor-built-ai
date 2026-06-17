@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsTerraFarmingRouteImport } from './routes/projects.terra-farming'
 import { Route as ProjectsBigLeagueSwingsRouteImport } from './routes/projects.big-league-swings'
+import { Route as BlogHowToBuildCustomAiAgentsRouteImport } from './routes/blog.how-to-build-custom-ai-agents'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -34,16 +35,24 @@ const ProjectsBigLeagueSwingsRoute = ProjectsBigLeagueSwingsRouteImport.update({
   path: '/projects/big-league-swings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogHowToBuildCustomAiAgentsRoute =
+  BlogHowToBuildCustomAiAgentsRouteImport.update({
+    id: '/blog/how-to-build-custom-ai-agents',
+    path: '/blog/how-to-build-custom-ai-agents',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/how-to-build-custom-ai-agents': typeof BlogHowToBuildCustomAiAgentsRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
   '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/how-to-build-custom-ai-agents': typeof BlogHowToBuildCustomAiAgentsRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
   '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
 }
@@ -51,6 +60,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/how-to-build-custom-ai-agents': typeof BlogHowToBuildCustomAiAgentsRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
   '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
 }
@@ -59,18 +69,21 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/sitemap.xml'
+    | '/blog/how-to-build-custom-ai-agents'
     | '/projects/big-league-swings'
     | '/projects/terra-farming'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/sitemap.xml'
+    | '/blog/how-to-build-custom-ai-agents'
     | '/projects/big-league-swings'
     | '/projects/terra-farming'
   id:
     | '__root__'
     | '/'
     | '/sitemap.xml'
+    | '/blog/how-to-build-custom-ai-agents'
     | '/projects/big-league-swings'
     | '/projects/terra-farming'
   fileRoutesById: FileRoutesById
@@ -78,6 +91,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  BlogHowToBuildCustomAiAgentsRoute: typeof BlogHowToBuildCustomAiAgentsRoute
   ProjectsBigLeagueSwingsRoute: typeof ProjectsBigLeagueSwingsRoute
   ProjectsTerraFarmingRoute: typeof ProjectsTerraFarmingRoute
 }
@@ -112,25 +126,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsBigLeagueSwingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/how-to-build-custom-ai-agents': {
+      id: '/blog/how-to-build-custom-ai-agents'
+      path: '/blog/how-to-build-custom-ai-agents'
+      fullPath: '/blog/how-to-build-custom-ai-agents'
+      preLoaderRoute: typeof BlogHowToBuildCustomAiAgentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  BlogHowToBuildCustomAiAgentsRoute: BlogHowToBuildCustomAiAgentsRoute,
   ProjectsBigLeagueSwingsRoute: ProjectsBigLeagueSwingsRoute,
   ProjectsTerraFarmingRoute: ProjectsTerraFarmingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
