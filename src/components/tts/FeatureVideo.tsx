@@ -19,50 +19,101 @@ export function FeatureVideo({ src, poster, index, title, caption }: FeatureVide
   const [isPlaying, setIsPlaying] = useState(false);
   const [isTouch, setIsTouch] = useState(false);
 
+  // FIX 1: React JSX `muted` prop does NOT reliably set the DOM .muted property.
+  // React calls setAttribute internally, but the browser autoplay policy checks
+  // the DOM property element.muted — not the HTML attribute. Without this useEffect,
+  // play() throws NotAllowedError and the video never plays on hover.
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+    }
+  }, []);
+
+  // Detect touch-only device (no hover capability)
   useEffect(() => {
     setIsTouch(window.matchMedia("(hover: none)").matches);
   }, []);
 
+  // FIX 2: Play / pause + voiceover audio management.
+  // Sequence:
+  //   1. Always start muted so autoplay policy allows play()
+  //   2. After play() resolves successfully, unmute -> voiceover starts
+  //   3. On hover-end OR scroll-out: mute first, then pause (prevents audio pop)
+  // The `cancelled` flag guards the race where the mouse leaves before play() resolves.
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
+
     const shouldPlay = inView && (hover || toggled);
+    let cancelled = false;
+
     if (shouldPlay) {
-      const p = v.play();
-      if (p && typeof p.then === "function") {
-        p.then(() => setIsPlaying(true)).catch((err: DOMException) => {
-          if (err?.name !== "AbortError") setIsPlaying(false);
-        });
+      v.muted = true;
+      const promise = v.play();
+
+      if (promise && typeof promise.then === "function") {
+        promise
+          .then(() => {
+            if (cancelled) return;
+            setIsPlaying(true);
+            v.muted = false;
+          })
+          .catch((err: DOMException) => {
+            if (cancelled) return;
+            if (err?.name !== "AbortError") {
+              setIsPlaying(false);
+            }
+          });
       } else {
-        setIsPlaying(true);
+        if (!cancelled) {
+          setIsPlaying(true);
+          v.muted = false;
+        }
       }
     } else {
+      v.muted = true;
       v.pause();
       setIsPlaying(false);
     }
+
+    return () => {
+      cancelled = true;
+    };
   }, [inView, hover, toggled]);
 
+  // FIX 3: Lower IntersectionObserver threshold from 0.4 to 0.2.
+  // Bottom-row cards in the 5-col grid are typically 25-35% visible on hover.
+  // At 0.4 threshold, inView stayed false -> play() was never called.
   useEffect(() => {
     const el = cardRef.current;
     if (!el) return;
+
     const io = new IntersectionObserver(
       ([entry]) => {
-        const visible = entry.intersectionRatio >= 0.4;
+        const visible = entry.intersectionRatio >= 0.2;
         setInView(visible);
         if (!visible) {
+          if (videoRef.current) {
+            videoRef.current.muted = true;
+          }
           setHover(false);
           setToggled(false);
         }
       },
-      { threshold: [0, 0.4, 1] }
+      { threshold: [0, 0.2, 0.4, 1] }
     );
+
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
+  // Mute + stop when tab is hidden
   useEffect(() => {
     const onVis = () => {
       if (document.hidden) {
+        if (videoRef.current) {
+          videoRef.current.muted = true;
+        }
         setHover(false);
         setToggled(false);
       }
@@ -95,11 +146,13 @@ export function FeatureVideo({ src, poster, index, title, caption }: FeatureVide
           : "border-white/10",
       ].join(" ")}
     >
+      {/* NOTE: muted is intentionally NOT set as a JSX prop here.
+          It is set via DOM property in the useEffect above (Fix 1).
+          The JSX muted prop silently fails in React and breaks autoplay. */}
       <video
         ref={videoRef}
         src={src}
         poster={poster}
-        muted
         loop
         playsInline
         preload="metadata"
@@ -111,7 +164,7 @@ export function FeatureVideo({ src, poster, index, title, caption }: FeatureVide
         {isTouch ? "Tap" : "Hover"} · Play
       </div>
 
-      {/* Poster / play overlay */}
+      {/* Play overlay — hidden while playing */}
       <div
         className={[
           "absolute inset-0 z-10 flex items-center justify-center bg-black/30 transition-opacity duration-500",
