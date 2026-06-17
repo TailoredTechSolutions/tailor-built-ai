@@ -4,9 +4,9 @@ import { Nav } from "@/components/tts/Nav";
 import { Footer } from "@/components/tts/Footer";
 
 const URL = "https://tailoredtechsolutions.org/blog/how-to-build-custom-ai-agents";
-const TITLE = "How to Build an AI Agent: A Practical Guide to Custom AI Solutions";
+const TITLE = "How to Build an AI Agent: A Practical Guide";
 const DESC =
-  "A technical guide to building custom AI agents for business automation — architecture, tools, memory, evaluation, and shipping to production. From the team behind Tailored Tech Solutions' AI Sales & Lead Generation Agents.";
+  "A technical guide to building custom AI agents for business automation — architecture, tools, memory, and shipping to production.";
 
 export const Route = createFileRoute("/blog/how-to-build-custom-ai-agents")({
   head: () => ({
