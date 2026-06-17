@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsTerraFarmingRouteImport } from './routes/projects.terra-farming'
 import { Route as ProjectsBigLeagueSwingsRouteImport } from './routes/projects.big-league-swings'
 import { Route as BlogHowToBuildCustomAiAgentsRouteImport } from './routes/blog.how-to-build-custom-ai-agents'
+import { Route as BlogAiAgentsCustomerSupportRouteImport } from './routes/blog.ai-agents-customer-support'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -41,10 +42,17 @@ const BlogHowToBuildCustomAiAgentsRoute =
     path: '/blog/how-to-build-custom-ai-agents',
     getParentRoute: () => rootRouteImport,
   } as any)
+const BlogAiAgentsCustomerSupportRoute =
+  BlogAiAgentsCustomerSupportRouteImport.update({
+    id: '/blog/ai-agents-customer-support',
+    path: '/blog/ai-agents-customer-support',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/ai-agents-customer-support': typeof BlogAiAgentsCustomerSupportRoute
   '/blog/how-to-build-custom-ai-agents': typeof BlogHowToBuildCustomAiAgentsRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
   '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
@@ -52,6 +60,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/ai-agents-customer-support': typeof BlogAiAgentsCustomerSupportRoute
   '/blog/how-to-build-custom-ai-agents': typeof BlogHowToBuildCustomAiAgentsRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
   '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
@@ -60,6 +69,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/ai-agents-customer-support': typeof BlogAiAgentsCustomerSupportRoute
   '/blog/how-to-build-custom-ai-agents': typeof BlogHowToBuildCustomAiAgentsRoute
   '/projects/big-league-swings': typeof ProjectsBigLeagueSwingsRoute
   '/projects/terra-farming': typeof ProjectsTerraFarmingRoute
@@ -69,6 +79,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/sitemap.xml'
+    | '/blog/ai-agents-customer-support'
     | '/blog/how-to-build-custom-ai-agents'
     | '/projects/big-league-swings'
     | '/projects/terra-farming'
@@ -76,6 +87,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/sitemap.xml'
+    | '/blog/ai-agents-customer-support'
     | '/blog/how-to-build-custom-ai-agents'
     | '/projects/big-league-swings'
     | '/projects/terra-farming'
@@ -83,6 +95,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/sitemap.xml'
+    | '/blog/ai-agents-customer-support'
     | '/blog/how-to-build-custom-ai-agents'
     | '/projects/big-league-swings'
     | '/projects/terra-farming'
@@ -91,6 +104,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  BlogAiAgentsCustomerSupportRoute: typeof BlogAiAgentsCustomerSupportRoute
   BlogHowToBuildCustomAiAgentsRoute: typeof BlogHowToBuildCustomAiAgentsRoute
   ProjectsBigLeagueSwingsRoute: typeof ProjectsBigLeagueSwingsRoute
   ProjectsTerraFarmingRoute: typeof ProjectsTerraFarmingRoute
@@ -133,12 +147,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogHowToBuildCustomAiAgentsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/ai-agents-customer-support': {
+      id: '/blog/ai-agents-customer-support'
+      path: '/blog/ai-agents-customer-support'
+      fullPath: '/blog/ai-agents-customer-support'
+      preLoaderRoute: typeof BlogAiAgentsCustomerSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  BlogAiAgentsCustomerSupportRoute: BlogAiAgentsCustomerSupportRoute,
   BlogHowToBuildCustomAiAgentsRoute: BlogHowToBuildCustomAiAgentsRoute,
   ProjectsBigLeagueSwingsRoute: ProjectsBigLeagueSwingsRoute,
   ProjectsTerraFarmingRoute: ProjectsTerraFarmingRoute,
