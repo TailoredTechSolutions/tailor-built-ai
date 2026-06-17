@@ -28,6 +28,21 @@ export const Route = createFileRoute("/projects/big-league-swings")({
     links: [
       { rel: "canonical", href: "https://tailoredtechsolutions.org/projects/big-league-swings" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Big League Swings",
+          applicationCategory: "SportsApplication",
+          operatingSystem: "iOS, Android",
+          url: "https://tailoredtechsolutions.org/projects/big-league-swings",
+          description: "Mobile batting-cage platform with Hit Trax integration. Built by Tailored Tech Solutions.",
+          author: { "@type": "Organization", name: "Tailored Tech Solutions", url: "https://tailoredtechsolutions.org" },
+        }),
+      },
+    ],
   }),
   component: BigLeagueSwingsPage,
 });
