@@ -72,11 +72,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Tailored Tech Solutions — AI Software Studio" },
-      { name: "description", content: "Tailored Tech Solutions builds production AI products, mobile apps, and bespoke engineering software." },
       { name: "author", content: "Tailored Tech Solutions" },
       { property: "og:site_name", content: "Tailored Tech Solutions" },
-      { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@TailoredTechSol" },
       { name: "google-site-verification", content: "wtVJ2BMoimmwUc4ii0l5leYQVNOqOrNfe4n_Z_Ce9TY" },
