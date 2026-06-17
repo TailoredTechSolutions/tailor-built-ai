@@ -66,7 +66,9 @@ export function SnapScrollHero() {
         <span>{String(active + 1).padStart(2, "0")}</span> / {String(SECTIONS.length).padStart(2, "0")}
       </div>
 
-      {SECTIONS.map((s, i) => (
+      {SECTIONS.map((s, i) => {
+        const Heading = i === 0 ? "h1" : "h2";
+        return (
         <section
           key={i}
           ref={(el) => { sectionRefs.current[i] = el; }}
@@ -77,9 +79,15 @@ export function SnapScrollHero() {
           <div className="section__content">
             <div className="section__step">{s.step}</div>
             <div className="section__line" />
-            <h1 className="section__title">
-              {s.title[0]}<br />{s.title[1]}
-            </h1>
+            {i === 0 ? (
+              <h1 className="section__title">
+                Tailored Tech Solutions — Bespoke AI Software Studio
+              </h1>
+            ) : (
+              <Heading className="section__title">
+                {s.title[0]}<br />{s.title[1]}
+              </Heading>
+            )}
             <p className="section__sub">{s.sub}</p>
           </div>
           {i === 0 && (
@@ -89,7 +97,8 @@ export function SnapScrollHero() {
             </div>
           )}
         </section>
-      ))}
+        );
+      })}
     </div>
   );
 }
