@@ -1,17 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Nav } from "@/components/tts/Nav";
-import { Hero } from "@/components/tts/Hero";
-import { SilkRibbon } from "@/components/tts/SilkRibbon";
-import { Marquee } from "@/components/tts/Marquee";
-import { Services } from "@/components/tts/Services";
-import { Stack } from "@/components/tts/Stack";
-import { Projects } from "@/components/tts/Projects";
-import { Founders } from "@/components/tts/Founders";
-import { Frameworks } from "@/components/tts/Frameworks";
-import { Markets } from "@/components/tts/Markets";
-import { Testimonials } from "@/components/tts/Testimonials";
-import { Contact } from "@/components/tts/Contact";
-import { Footer } from "@/components/tts/Footer";
+import { SnapScrollHero } from "@/components/SnapScrollHero";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -52,23 +40,5 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  return (
-    <div className="text-chrome relative">
-      <SilkRibbon />
-      <Nav />
-      <main>
-        <Hero />
-        <Marquee />
-        <Services />
-        <Projects />
-        <Stack />
-        <Founders />
-        <Frameworks />
-        <Markets />
-        <Testimonials />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
-  );
+  return <SnapScrollHero />;
 }
