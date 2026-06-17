@@ -28,6 +28,25 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "canonical", href: "https://tailoredtechsolutions.org/" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "Tailored Tech Solutions",
+          url: "https://tailoredtechsolutions.org",
+          telephone: "+1-940-601-5260",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Nipomo",
+            addressRegion: "CA",
+            postalCode: "93444",
+            addressCountry: "US",
+          },
+        }),
+      },
+    ],
   }),
   component: Index,
 });
