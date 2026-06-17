@@ -31,6 +31,21 @@ export const Route = createFileRoute("/projects/terra-farming")({
     links: [
       { rel: "canonical", href: "https://tailoredtechsolutions.org/projects/terra-farming" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Terra Farming",
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web, iOS, Android",
+          url: "https://tailoredtechsolutions.org/projects/terra-farming",
+          description: "Agriculture intelligence platform connecting farmers, buyers, drivers, and HQ. Built by Tailored Tech Solutions.",
+          author: { "@type": "Organization", name: "Tailored Tech Solutions", url: "https://tailoredtechsolutions.org" },
+        }),
+      },
+    ],
   }),
   component: TerraFarmingPage,
 });
