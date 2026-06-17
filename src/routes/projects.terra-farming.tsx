@@ -82,7 +82,7 @@ function TerraFarmingPage() {
                   className="mt-4 font-display text-5xl md:text-7xl font-extrabold tracking-tighter"
                   style={{ color: TERRA.cream }}
                 >
-                  Terra <span style={{ color: TERRA.greenLight }}>Farming</span>
+                  Terra <span style={{ color: TERRA.greenLight }}>Farming</span> — Agriculture Intelligence Platform
                 </h1>
                 <p className="mt-5 text-lg" style={{ color: "#d8c9ad" }}>
                   Multi-role farm-to-table marketplace with real-time logistics, compliance, and commission engine.
