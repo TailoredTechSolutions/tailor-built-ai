@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terra Farming — Platform Walkthrough</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@600;700&family=Space+Mono:wght@400;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #060e08;
+    --surface:    #0c160e;
+    --surface-2:  #111f14;
+    --border:     rgba(57, 217, 138, 0.12);
+    --border-hi:  rgba(57, 217, 138, 0.35);
+    --green:      #39d98a;
+    --green-dim:  #1e7a4a;
+    --green-glow: rgba(57, 217, 138, 0.15);
+    --gold:       #C9A84C;
+    --white:      #e7eefc;
+    --muted:      #6b7f72;
+    --body:       #a7bfad;
+    --font-d:     'Rajdhani', sans-serif;
+    --font-b:     'Inter', sans-serif;
+    --font-m:     'Space Mono', monospace;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--font-b);
+    overflow: hidden;
+  }
+
+  /* ── Shell ── */
+  .shell {
+    display: grid;
+    grid-template-rows: 64px 1fr 72px;
+    height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: var(--green);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .logo-text {
+    font-family: var(--font-d);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--white);
+  }
+  .logo-sub {
+    font-family: var(--font-m);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .progress-wrap {
+    flex: 1;
+    max-width: 360px;
+    margin: 0 32px;
+  }
+  .progress-label {
+    font-family: var(--font-m);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .progress-track {
+    height: 3px;
+    background: var(--surface-2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    box-shadow: 0 0 8px var(--green-glow);
+  }
+  .section-counter {
+    font-family: var(--font-m);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .section-counter span {
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* ── Main content ── */
+  main {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    overflow: hidden;
+  }
+
+  /* Left — screen panel */
+  .screen-panel {
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .screen-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px 10px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .section-num {
+    font-family: var(--font-m);
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    background: var(--green-glow);
+    border: 1px solid var(--border-hi);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+  .screen-name {
+    font-family: var(--font-m);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .role-badge {
+    margin-left: auto;
+    font-family: var(--font-m);
+    font-size: 9px;
+    color: var(--gold);
+    background: rgba(201, 168, 76, 0.08);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .clip-badge {
+    font-family: var(--font-m);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-left: 8px;
+  }
+
+  .screen-visual {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .screen-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 32px;
+  }
+  .screen-title-big {
+    font-family: var(--font-d);
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    color: var(--white);
+    text-align: center;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+  }
+  .screen-title-big em {
+    color: var(--green);
+    font-style: normal;
+  }
+  .screen-tagline {
+    font-family: var(--font-b);
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 440px;
+    line-height: 1.6;
+  }
+  .screen-icon-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .screen-chip {
+    font-family: var(--font-m);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--green);
+    background: var(--green-glow);
+    border: 1px solid var(--border-hi);
+    padding: 4px 10px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+
+  /* Decorative grid bg */
+  .screen-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .screen-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, var(--green-glow), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Right — script panel */
+  .script-panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .script-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 22px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-hi) transparent;
+  }
+  .script-scroll::-webkit-scrollbar { width: 4px; }
+  .script-scroll::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
+
+  .vo-label {
+    font-family: var(--font-m);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .vo-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .vo-text {
+    font-family: var(--font-b);
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--body);
+    margin-bottom: 20px;
+    white-space: pre-line;
+  }
+  .callouts-label {
+    font-family: var(--font-m);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .callouts-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201, 168, 76, 0.12);
+  }
+  .callout-item {
+    display: flex;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-b);
+    font-size: 12px;
+    color: var(--body);
+    line-height: 1.5;
+  }
+  .callout-arrow {
+    color: var(--gold);
+    font-family: var(--font-m);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .transition-line {
+    margin-top: 18px;
+    padding: 10px 14px;
+    background: var(--green-glow);
+    border-left: 2px solid var(--green);
+    border-radius: 0 4px 4px 0;
+    font-family: var(--font-b);
+    font-size: 11px;
+    color: var(--green);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ffmpeg strip */
+  .ffmpeg-strip {
+    padding: 10px 22px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .ffmpeg-label {
+    font-family: var(--font-m);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    margin-bottom: 4px;
+  }
+  .ffmpeg-code {
+    font-family: var(--font-m);
+    font-size: 9px;
+    color: var(--green-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+  }
+  .ffmpeg-code:hover { color: var(--green); }
+
+  /* ── Nav bar ── */
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    gap: 16px;
+  }
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--body);
+    font-family: var(--font-m);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .nav-btn:hover:not(:disabled) {
+    border-color: var(--border-hi);
+    color: var(--green);
+    background: var(--green-glow);
+  }
+  .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+  .nav-btn .arrow { font-size: 14px; }
+
+  .section-title-center {
+    font-family: var(--font-d);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.04em;
+    text-align: center;
+    flex: 1;
+  }
+
+  .keyboard-hint {
+    font-family: var(--font-m);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .key-icon {
+    display: inline-block;
+    padding: 1px 5px;
+    border: 1px solid var(--muted);
+    border-radius: 2px;
+    font-size: 9px;
+  }
+
+  /* Transitions */
+  .slide-enter { animation: slideIn 0.3s ease forwards; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .slide-enter-back { animation: slideInBack 0.3s ease forwards; }
+  @keyframes slideInBack {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🌱</div>
+      <div>
+        <div class="logo-text">TERRA FARMING</div>
+        <div class="logo-sub">Platform Walkthrough</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="progressLabel">Section 1 of 13</span>
+        <span id="progressPct">8%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width: 8%"></div>
+      </div>
+    </div>
+    <div class="section-counter">
+      <span id="currentNum">01</span> / 13
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <!-- Left: Screen Visual -->
+    <div class="screen-panel">
+      <div class="screen-badge">
+        <span class="section-num" id="sectionNum">01</span>
+        <span class="screen-name" id="screenName">LANDING PAGE — HERO</span>
+        <span class="role-badge" id="roleBadge">Public</span>
+        <span class="clip-badge" id="clipBadge">⏱ 0:00–0:30</span>
+      </div>
+      <div class="screen-visual">
+        <div class="screen-placeholder" id="screenPlaceholder">
+          <div class="screen-title-big" id="screenTitle">From Dirt to <em>Dessert</em></div>
+          <div class="screen-tagline" id="screenTagline">Philippines' first farm-to-table marketplace — connecting highland Benguet farmers directly to businesses and consumers.</div>
+          <div class="screen-icon-grid" id="screenChips"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Script Panel -->
+    <div class="script-panel">
+      <div class="script-scroll" id="scriptScroll">
+        <div class="vo-label">🎙 Voiceover Script</div>
+        <div class="vo-text" id="voText"></div>
+        <div class="callouts-label">📍 Key Visual Beats</div>
+        <div id="calloutsList"></div>
+        <div class="transition-line" id="transitionLine"></div>
+      </div>
+      <div class="ffmpeg-strip">
+        <div class="ffmpeg-label">FFMPEG EXPORT COMMAND</div>
+        <div class="ffmpeg-code" id="ffmpegCode" title="Click to copy"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer Nav -->
+  <footer>
+    <button class="nav-btn" id="prevBtn" onclick="navigate(-1)" disabled>
+      <span class="arrow">◀</span> Prev
+    </button>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+      <div class="section-title-center" id="navSectionTitle">Landing Page — Hero</div>
+      <div class="keyboard-hint">
+        <span class="key-icon">←</span> <span class="key-icon">→</span> arrow keys to navigate
+      </div>
+    </div>
+    <button class="nav-btn" id="nextBtn" onclick="navigate(1)">
+      Next <span class="arrow">▶</span>
+    </button>
+  </footer>
+</div>
+
+<script>
+const SECTIONS = [
+  {
+    num: '01',
+    screen: 'LANDING PAGE — HERO',
+    role: 'Public',
+    title: 'From Dirt to <em>Dessert</em>',
+    tagline: "Philippines' first farm-to-table marketplace — connecting highland Benguet farmers directly to businesses and consumers.",
+    chips: ['100% Organic', 'Same-Day Delivery', 'KYC Verified', 'DA-Registered'],
+    clip: '0:00–0:30',
+    vo: `Welcome to Terra Farming — the Philippines' first farm-to-table digital marketplace connecting highland Benguet farmers directly to businesses and consumers.
+
+The hero positions Terra with its core promise: 100% organic, same-day delivery, real-time tracking, and quality guaranteed. Trust signals anchor the bottom — DA-Registered, SEC Compliant, and KYC Verified.
+
+Three headline stats tell the scale story: 50+ partner farms, 1K+ happy customers, and 24hr delivery time. This is the first thing every buyer, farmer, and investor sees.`,
+    callouts: [
+      '100% Organic · Same-Day Delivery — the two-line promise above the fold',
+      'Trust badges: DA-Registered · SEC Compliant · KYC Verified — builds instant credibility',
+      'Stats row: 50+ Partner Farms · 1K+ Customers · 24hr Delivery — social proof at a glance',
+    ],
+    transition: 'Next, we\'ll see the AI assistant — the intelligence layer powering every role on the platform.',
+  },
+  {
+    num: '02',
+    screen: 'AI ASSISTANT — RECOMMENDATIONS',
+    role: 'All Users',
+    title: 'AI <em>Intelligence</em> Layer',
+    tagline: 'Conversational AI that knows your harvest calendar, your buyers, and your inventory — before you do.',
+    chips: ['Natural Language', 'Role-Aware', 'Harvest Prediction', 'Demand Forecast'],
+    clip: '0:30–1:00',
+    vo: `Terra's embedded AI assistant surfaces at every screen. You can ask it anything: "What's in season from Benguet this week?" or "Which buyers ordered strawberries last month?"
+
+The assistant cross-references live inventory, seasonal data, and order history to give precise, actionable answers. This isn't a chatbot — it's an agricultural intelligence layer built directly into the platform.
+
+Farmers get harvest predictions. Buyers get availability alerts. Admins get demand forecasting. One model, three different outputs depending on your role.`,
+    callouts: [
+      'Natural language query bar — accessible from any screen',
+      'Role-aware output: different answer for Farmer vs Buyer vs Admin',
+      '30-day demand forecast powered by 12 months of order history',
+    ],
+    transition: 'Let\'s move to the Buyer Dashboard — where procurement teams place and manage orders.',
+  },
+  {
+    num: '03',
+    screen: 'BUYER DASHBOARD — ORDER CENTER',
+    role: 'Buyer',
+    title: 'Order at Scale, <em>Delivered by Morning</em>',
+    tagline: 'Your complete procurement dashboard — browse, order, track, and reorder from every partner farm in one screen.',
+    chips: ['50+ Farms', 'Smart Reorder', 'MOQ Filters', 'Freshness Score'],
+    clip: '1:00–1:30',
+    vo: `The Buyer Dashboard is designed for volume. Restaurants, hotels, and supermarkets browse live inventory from 50+ partner farms, filter by certification, minimum order quantity, or delivery window, and place orders in under three minutes.
+
+Smart reorder detection flags your top recurring items the moment stock is available. Every order card shows per-item freshness ratings, farm origin, harvest date, and estimated arrival — everything a procurement officer needs without a single phone call.
+
+One tap dispatches the order. A driver is assigned within seconds.`,
+    callouts: [
+      'Live inventory with DA cert, MOQ, and delivery window filters',
+      'Smart reorder: top 10 recurring SKUs flagged when in stock',
+      'Per-item card: freshness score + farm origin + harvest date + ETA',
+    ],
+    transition: 'Once an order is placed, real-time tracking activates. Let\'s look at that next.',
+  },
+  {
+    num: '04',
+    screen: 'REAL-TIME ORDER TRACKING',
+    role: 'Buyer / Farmer',
+    title: 'Live Farm Gate <em>to Your Door</em>',
+    tagline: 'GPS-pinned tracking updated every 90 seconds — from harvest confirmation to final delivery.',
+    chips: ['GPS 90s Update', '5-Stage Milestones', 'Push Alerts', 'QR Manifest'],
+    clip: '1:30–2:00',
+    vo: `Once an order is dispatched, Terra's tracking layer activates. A live map shows the driver's position updated every 90 seconds, with a dynamic ETA recalculating based on traffic and route conditions.
+
+Status milestones fire in sequence: Order Confirmed, Harvested, Packed, In Transit, Delivered. Each step triggers a push notification and an in-app status card.
+
+For buyers receiving large orders, the delivery manifest is auto-generated at packing — itemized, weight-verified, and QR-coded for receiving.`,
+    callouts: [
+      'Live GPS map — driver position every 90 seconds, ETA auto-updates',
+      '5-stage milestone system: Confirmed → Harvested → Packed → Transit → Delivered',
+      'Auto-generated itemized manifest with QR code at packing step',
+    ],
+    transition: 'Now let\'s flip to the other side — the Farmer Dashboard, where produce listings and orders are managed.',
+  },
+  {
+    num: '05',
+    screen: 'FARMER / PARTNER DASHBOARD',
+    role: 'Farmer',
+    title: 'Your Farm. <em>Your Schedule.</em>',
+    tagline: 'Full inventory control, order management, and earnings visibility — built for highland farmers with limited connectivity.',
+    chips: ['40s Listing', 'One-Tap Accept', 'GCash Payout', 'Offline-Ready'],
+    clip: '2:00–2:30',
+    vo: `The Farmer Dashboard gives growers complete control without complexity. You add produce with a photo and a weight estimate, set your price, and toggle availability. It takes 40 seconds.
+
+Incoming orders arrive as job cards with all delivery details pre-populated. One tap to accept. Another to mark harvested. The platform handles the rest — driver dispatch, buyer notification, payment release.
+
+Earnings are tracked in real time, and monthly payout summaries are downloadable. Every farmer sees exactly what they earned and when it hits their GCash or bank account.`,
+    callouts: [
+      '40-second listing flow: photo + weight + price + availability toggle',
+      'Job card: one-tap accept → mark harvested → platform handles dispatch',
+      'Real-time earnings tracker with GCash and bank payout integration',
+    ],
+    transition: 'The Admin Panel sits above all of this — let\'s look at how operators manage the entire marketplace.',
+  },
+  {
+    num: '06',
+    screen: 'ADMIN PANEL — OPERATIONS HQ',
+    role: 'Admin',
+    title: 'Full Visibility. <em>Total Control.</em>',
+    tagline: 'The operations command center — manage every farmer, buyer, driver, and order from a single panel.',
+    chips: ['KYC Status', 'Dispute Tools', 'No-Code Config', 'Inventory Flags'],
+    clip: '2:30–3:00',
+    vo: `The Admin Panel is where Terra's operators manage the entire marketplace. Every farmer's KYC status, every buyer's order history, every driver's active route — all visible from one dashboard.
+
+Dispute resolution tools let admins mediate order issues, issue partial refunds, or escalate to quality control with a single workflow. Inventory discrepancies trigger automatic flags with photo evidence already attached.
+
+Platform-wide announcements, delivery fee structures, and delivery zones are all configurable here — no code required.`,
+    callouts: [
+      'Master view: all farmer KYC statuses, buyer orders, driver routes in one grid',
+      'Dispute workflow: mediate → partial refund → escalate, single flow',
+      'No-code config panel: fees, delivery zones, platform announcements',
+    ],
+    transition: 'Next — the Driver Dashboard. Let\'s see how delivery is managed on the ground.',
+  },
+  {
+    num: '07',
+    screen: 'DRIVER DASHBOARD — DELIVERY',
+    role: 'Driver',
+    title: 'Pick Up. Deliver. <em>Get Paid.</em>',
+    tagline: 'Proximity-sorted job cards, live route optimization, and instant earnings on confirmation.',
+    chips: ['Proximity Sort', 'QR Scan', 'Route Optimize', 'Instant Pay'],
+    clip: '3:00–3:30',
+    vo: `Drivers open Terra to a live feed of available pickup jobs sorted by proximity and payout. You accept a job, get the farm's exact GPS pin, and navigate directly from the app.
+
+At pickup, a QR scan confirms the manifest — weight, item count, and buyer details lock in. During delivery, the route is optimized in real time. On arrival, the buyer scans to confirm receipt.
+
+Earnings credit instantly on confirmation. Daily summaries show completed runs, total weight hauled, and gross earnings for the day.`,
+    callouts: [
+      'Job feed: proximity-sorted, tap to accept, GPS nav launches immediately',
+      'QR scan at pickup: locks manifest weight and item count on-chain',
+      'Instant earnings credit the moment buyer confirms receipt',
+    ],
+    transition: 'Let\'s step back to the Marketplace — the public catalog where buyers browse 200+ SKUs.',
+  },
+  {
+    num: '08',
+    screen: 'MARKETPLACE — PRODUCT CATALOG',
+    role: 'Buyer / Public',
+    title: 'Highland Produce, <em>Priced at Source</em>',
+    tagline: 'Browse 200+ SKUs from certified Benguet farms — filtered by availability, certification, price, and delivery window.',
+    chips: ['200+ SKUs', 'DA Certified', 'Tiered Pricing', 'Daily 6AM Refresh'],
+    clip: '3:30–4:00',
+    vo: `The Marketplace is the public-facing storefront. Buyers browse over 200 active SKUs organized by category: Leafy Greens, Root Crops, Fruits, Herbs, and Specialty Produce.
+
+Every listing shows the farm name, DA certification badge, current availability in kilos, price per kilo, and minimum order quantity. Freshness scores are calculated from harvest date — buyers always know exactly how old the produce is before ordering.
+
+Bulk ordering triggers tiered pricing. Recurring buyers unlock preferred delivery windows. The catalog refreshes every morning at 6AM as farms log their daily harvest.`,
+    callouts: [
+      'SKU categories: Leafy Greens · Root Crops · Fruits · Herbs · Specialty',
+      'Freshness score calculated from actual harvest date — not estimated',
+      'Tiered pricing unlocks at bulk MOQ; recurring buyers get preferred windows',
+    ],
+    transition: 'Quality control is what separates Terra from informal markets. Here\'s how it works.',
+  },
+  {
+    num: '09',
+    screen: 'QUALITY CONTROL — PHOTO VERIFY',
+    role: 'Admin / Farmer',
+    title: 'Every Box. <em>Verified.</em>',
+    tagline: 'Mandatory photo capture at packing creates a verifiable quality trail from farm gate to delivery.',
+    chips: ['Mandatory Photo', 'Timestamped', 'Geotagged', 'Quality Score'],
+    clip: '4:00–4:30',
+    vo: `Terra's quality layer is built into the packing step — not bolted on afterward. When a farmer marks an order as packed, they must photograph the produce against a checklist: weight verified, items counted, packaging intact.
+
+These photos are timestamped, geotagged, and permanently attached to the order record. If a buyer raises a quality dispute, the photo evidence is already in the system before the conversation starts.
+
+Quality scores feed back into the farmer's platform rating, which directly affects their search ranking and payout tier.`,
+    callouts: [
+      'Photo capture at packing: mandatory, timestamped, geotagged, locked to order',
+      'Dispute evidence is pre-built — photos exist before any complaint is filed',
+      'Quality scores → farmer search ranking and payout tier recalculation',
+    ],
+    transition: 'Leadership needs a live view of the whole operation. Let\'s look at the HQ Analytics dashboard.',
+  },
+  {
+    num: '10',
+    screen: 'ANALYTICS — HQ VIEW',
+    role: 'Admin / HQ',
+    title: 'Data That <em>Grows</em> the Business',
+    tagline: 'Live GMV, farm performance rankings, route efficiency, and 30-day demand forecasting.',
+    chips: ['Live GMV', 'Farm Rankings', 'Route Efficiency', '30-Day Forecast'],
+    clip: '4:30–5:00',
+    vo: `The HQ Analytics view gives leadership a live pulse on the entire marketplace. Gross Merchandise Value, order count, average basket size, and delivery success rate all update in real time.
+
+Farm performance rankings let admins identify top producers and flag underperformers. Route efficiency metrics expose delivery bottlenecks — which zones are slow, which drivers are fastest, where capacity is under-utilized.
+
+Demand forecasting models — trained on 12 months of order history and seasonality — surface the produce categories most likely to spike in the next 30 days.`,
+    callouts: [
+      'Live dashboard: GMV · order count · basket size · delivery success rate',
+      'Farm performance leaderboard with underperformer flags',
+      '30-day demand spike forecast from 12 months of historical data',
+    ],
+    transition: 'Before any farmer or buyer can transact, they go through KYC. Here\'s how that works.',
+  },
+  {
+    num: '11',
+    screen: 'KYC & COMPLIANCE CENTER',
+    role: 'Admin',
+    title: 'Verified at <em>Every Level</em>',
+    tagline: 'Built-in KYC for farmers, buyers, and drivers — SEC-compliant, DA-registered, and audit-ready from day one.',
+    chips: ['Gov ID Verify', 'DA Registration', 'BIR Check', 'Auto-Freeze'],
+    clip: '5:00–5:30',
+    vo: `Terra is built to operate within Philippine regulatory requirements from day one. Every farmer completes a KYC flow: government ID verification, DA farm registration upload, and barangay clearance — all processed and stored on the platform.
+
+Buyers verify business registration and tax ID before accessing wholesale pricing. Drivers submit license and vehicle registration before accepting jobs.
+
+Admins see full compliance status across all user types in a single grid. Expired documents trigger automatic account freeze and re-verification requests.`,
+    callouts: [
+      'Farmer KYC: Government ID + DA registration + barangay clearance',
+      'Buyer: DTI/SEC registration + BIR TIN required for wholesale pricing',
+      'Auto-freeze on expired docs — re-verification request sent automatically',
+    ],
+    transition: 'All of this runs natively on iOS and Android. Let\'s look at the mobile experience.',
+  },
+  {
+    num: '12',
+    screen: 'MOBILE APP — CAPACITOR NATIVE',
+    role: 'All Users (iOS & Android)',
+    title: 'Terra in <em>Your Pocket</em>',
+    tagline: 'Full platform functionality on iOS and Android — offline-capable for highland farmers with intermittent connectivity.',
+    chips: ['Offline Queue', 'Native Push', 'Native Camera', 'GPS Native'],
+    clip: '5:30–6:00',
+    vo: `Terra ships as a native iOS and Android app built on Capacitor, giving highland farmers full platform access even in low-connectivity areas. The app queues actions locally when offline and syncs automatically when signal returns.
+
+Push notifications for order updates, payment confirmations, and quality flags work natively. Camera integration handles photo verification directly from the device. GPS tracking activates automatically when a driver accepts a job.
+
+One codebase. Three role-based experiences: farmers see their harvest tools, buyers see their order center, drivers see their job feed.`,
+    callouts: [
+      'Offline-first: actions queued locally, synced on reconnect — no lost data',
+      'Native push, camera, and GPS via Capacitor — full device integration',
+      'Role-based mobile nav: Farmer / Buyer / Driver UIs from one codebase',
+    ],
+    transition: 'The final piece closes the financial loop — payments, escrow, and 24-hour payouts.',
+  },
+  {
+    num: '13',
+    screen: 'PAYMENTS & PAYOUTS',
+    role: 'All Users',
+    title: 'Fast Money. <em>Trusted Flow.</em>',
+    tagline: 'GCash, Maya, bank transfer, and COD — farmers paid within 24 hours of confirmed delivery.',
+    chips: ['GCash + Maya', 'Escrow Hold', '24hr Payout', 'Instant Driver Pay'],
+    clip: '6:00–6:30',
+    vo: `Terra closes the loop with a fully integrated payment and payout system. Buyers pay via GCash, Maya, bank transfer, or Cash on Delivery. All payments hold in escrow until delivery is confirmed.
+
+On buyer confirmation, funds release automatically. Farmers receive their payout within 24 hours via GCash or direct bank transfer. Drivers receive their delivery fee the moment the job closes.
+
+Every transaction is logged with a full audit trail. Farmers can download monthly earnings statements. Buyers receive itemized receipts for every delivery. The financial layer is clean, fast, and built for trust.`,
+    callouts: [
+      'Buyer payment: GCash · Maya · Bank Transfer · Cash on Delivery',
+      'Escrow hold until delivery confirmed — automatic release on buyer scan',
+      'Farmer 24hr payout · Driver instant credit · Full audit trail on every transaction',
+    ],
+    transition: 'That\'s all 13 sections of the Terra Farming platform. From highland farm gate to city delivery — end to end.',
+  },
+];
+
+let current = 0;
+let direction = 1;
+
+function ffmpegCmd(sec) {
+  const [start] = sec.clip.split('–');
+  const parts = start.trim().split(':');
+  const mm = parts[0].padStart(2,'0');
+  const ss = parts[1].padStart(2,'0');
+  const label = sec.screen.toLowerCase().replace(/[^a-z0-9]+/g,'_').slice(0,28);
+  return `ffmpeg -i terra_walkthrough.mp4 -ss 00:${mm}:${ss} -t 30 -c copy clip_${sec.num}_${label}.mp4`;
+}
+
+function render(dir = 1) {
+  const s = SECTIONS[current];
+
+  // Progress
+  const pct = Math.round(((current + 1) / SECTIONS.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `Section ${current+1} of ${SECTIONS.length}`;
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('currentNum').textContent = s.num;
+
+  // Screen panel
+  document.getElementById('sectionNum').textContent = s.num;
+  document.getElementById('screenName').textContent = s.screen;
+  document.getElementById('roleBadge').textContent = s.role;
+  document.getElementById('clipBadge').textContent = '⏱ ' + s.clip;
+  document.getElementById('screenTitle').innerHTML = s.title;
+  document.getElementById('screenTagline').textContent = s.tagline;
+
+  const chips = document.getElementById('screenChips');
+  chips.innerHTML = s.chips.map(c => `<span class="screen-chip">${c}</span>`).join('');
+
+  // Script panel
+  document.getElementById('voText').textContent = s.vo;
+
+  const callouts = document.getElementById('calloutsList');
+  callouts.innerHTML = s.callouts.map(c =>
+    `<div class="callout-item"><span class="callout-arrow">→</span><span>${c}</span></div>`
+  ).join('');
+
+  document.getElementById('transitionLine').textContent = s.transition;
+
+  // ffmpeg
+  const cmd = ffmpegCmd(s);
+  const el = document.getElementById('ffmpegCode');
+  el.textContent = cmd;
+  el.title = 'Click to copy';
+  el.onclick = () => {
+    navigator.clipboard?.writeText(cmd).then(() => {
+      el.textContent = '✓ Copied!';
+      setTimeout(() => { el.textContent = cmd; }, 1500);
+    });
+  };
+
+  // Nav
+  document.getElementById('navSectionTitle').textContent = s.screen.split('—').map(p => p.trim()).join(' · ');
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').disabled = current === SECTIONS.length - 1;
+
+  // Scroll reset
+  document.getElementById('scriptScroll').scrollTop = 0;
+
+  // Animate
+  const panel = document.querySelector('main');
+  const cls = dir >= 0 ? 'slide-enter' : 'slide-enter-back';
+  panel.classList.remove('slide-enter', 'slide-enter-back');
+  void panel.offsetWidth;
+  panel.classList.add(cls);
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 0 || next >= SECTIONS.length) return;
+  direction = dir;
+  current = next;
+  render(dir);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') navigate(1);
+  if (e.key === 'ArrowLeft')  navigate(-1);
+});
+
+// Init
+render(1);
+</script>
+</body>
+</html>
