@@ -211,7 +211,7 @@ export function TerraWalkthrough() {
           <div style={{ padding: "8px 20px", borderTop: `1px solid ${TERRA.border}`, background: TERRA.bg }}>
             <div style={{ fontFamily: "monospace", fontSize: 8, color: TERRA.muted, letterSpacing: "0.12em", marginBottom: 3 }}>FFMPEG EXPORT</div>
             <div style={{ fontFamily: "monospace", fontSize: 8, color: TERRA.greenDim, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-              ffmpeg -i terra_walkthrough.mp4 -ss 00:0{s.clip.split("–")[0].replace(":",":")}.split(":")[0].padStart(2,"0")}:{s.clip.split("–")[0].split(":")[1]}:00 -t 30 -c copy clip_{s.num}.mp4
+              {`ffmpeg -i terra_walkthrough.mp4 -ss 00:${s.clip.split("–")[0]}:00 -t 30 -c copy clip_${s.num}.mp4`}
             </div>
           </div>
         </div>
